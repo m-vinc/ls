@@ -86,6 +86,15 @@ t_element	*fill_element(t_element *actual, char *path, t_stat *istat, t_element 
 		fill_element(new_element(), path, istat, next);
 	return (actual->next);
 }
+char *ft_strjoinf(char *src, char *dest)
+{
+	char *t;
+
+	t = src;
+	src = ft_strjoin(src, dest);
+	free(t);
+	return (src);
+}
 t_opt	init_opt(int argc, char **argv)
 {
 	int 	e;
@@ -160,38 +169,38 @@ void	showfolder(t_element *file, t_opt opt, int c)
 		free(file);
 	return ;
 }
-void	showfirst(t_element *file)
+void	showfirst(t_element *file, char **f)
 {
 	if (S_ISREG(file->stat->st_mode))
-		ft_putchar('-');
+		*f = ft_strjoinf(*f, "-");
 	if (S_ISDIR(file->stat->st_mode))
-		ft_putchar('d');
+		*f = ft_strjoinf(*f, "d");
 	if (S_ISCHR(file->stat->st_mode))
-		ft_putchar('c');
+		*f = ft_strjoinf(*f, "c");
 	if (S_ISBLK(file->stat->st_mode))
-		ft_putchar('b');
+		*f = ft_strjoinf(*f, "f");
 	if (S_ISFIFO(file->stat->st_mode))
-		ft_putchar('p');
+		*f = ft_strjoinf(*f, "p");
 	if (S_ISLNK(file->stat->st_mode))
-		ft_putchar('l');
+		*f = ft_strjoinf(*f, "l");
 	if (S_ISSOCK(file->stat->st_mode))
-		ft_putchar('s');
+		*f = ft_strjoinf(*f, "s");
 	if (S_ISWHT(file->stat->st_mode))
-		ft_putchar('D');
+		*f = ft_strjoinf(*f, "D");
 }
-void	showright(t_element *file)
+void	showright(t_element *file, char **f)
 {
-	ft_putstr( (file->stat->st_mode & S_IRUSR) ? "r" : "-");
-	ft_putstr( (file->stat->st_mode & S_IWUSR) ? "w" : "-");
-	ft_putstr( (file->stat->st_mode & S_IXUSR) ? "x" : "-");
-	ft_putstr( (file->stat->st_mode & S_IRGRP) ? "r" : "-");
-	ft_putstr( (file->stat->st_mode & S_IWGRP) ? "w" : "-");
-	ft_putstr( (file->stat->st_mode & S_IXGRP) ? "x" : "-");
-	ft_putstr( (file->stat->st_mode & S_IROTH) ? "r" : "-");
-	ft_putstr( (file->stat->st_mode & S_IWOTH) ? "w" : "-");
-	ft_putstr( (file->stat->st_mode & S_IXOTH) ? "x " : "- ");
+	*f = ft_strjoinf(*f, (file->stat->st_mode & S_IRUSR) ? "r" : "-");
+	*f = ft_strjoinf(*f, (file->stat->st_mode & S_IWUSR) ? "w" : "-");
+	*f = ft_strjoinf(*f, (file->stat->st_mode & S_IXUSR) ? "x" : "-");
+	*f = ft_strjoinf(*f, (file->stat->st_mode & S_IRGRP) ? "r" : "-");
+	*f = ft_strjoinf(*f, (file->stat->st_mode & S_IWGRP) ? "w" : "-");
+	*f = ft_strjoinf(*f, (file->stat->st_mode & S_IXGRP) ? "x" : "-");
+	*f = ft_strjoinf(*f ,(file->stat->st_mode & S_IROTH) ? "r" : "-");
+	*f = ft_strjoinf(*f, (file->stat->st_mode & S_IWOTH) ? "w" : "-");
+	*f = ft_strjoinf(*f, (file->stat->st_mode & S_IXOTH) ? "x " : "- ");
 }
-void	showtime(t_element *file)
+void	showtime(t_element *file, char **f)
 {
 	char 	**time;
 	int 	e;
@@ -199,11 +208,11 @@ void	showtime(t_element *file)
 
 	e = 0;
 	time = ft_strsplit(ctime(&file->stat->st_ctime), ' ');
-	ft_putstr(time[2]);
-	ft_putchar(' ');
-	ft_putstr(time[1]);
-	ft_putchar(' ');
-	ft_putstr(time[3]);
+	*f = ft_strjoinf(*f, time[2]);
+	*f = ft_strjoinf(*f, " ");
+	*f = ft_strjoinf(*f, time[1]);
+	*f = ft_strjoinf(*f, " ");
+	*f = ft_strjoinf(*f, time[3]);
 	s = time;
 	while (time[e] != 0)
 	{
@@ -215,27 +224,40 @@ void	showtime(t_element *file)
 	if (s)
 		free(s);
 }
-void	showdetail(t_element *file)
+void	shownumberinfo(t_element *file, char **f)
 {
+	char *tmp;
 	struct passwd *pwd;
 	struct group *grp;
 
 	grp = getgrgid(file->stat->st_gid);
 	pwd = getpwuid(file->stat->st_uid);
-	showfirst(file);
-	showright(file);
-	ft_putnbr(file->stat->st_nlink);
-	ft_putchar('\t');
-	ft_putstr(pwd->pw_name);
-	ft_putchar('\t');
-	ft_putstr(grp->gr_name);
-	ft_putchar('\t');
-	ft_putnbr(file->stat->st_size);
-	ft_putchar('\t');
-	showtime(file);
-	ft_putchar(' ');
-	ft_putstr(file->path);
-	ft_putchar('\n');
+	tmp =  ft_itoa(file->stat->st_nlink);
+	*f = ft_strjoinf(*f, tmp);
+	free(tmp);
+	*f = ft_strjoinf(*f, "\t");
+	*f = ft_strjoinf(*f, pwd->pw_name);
+	*f = ft_strjoinf(*f, "\t");
+	*f = ft_strjoinf(*f, grp->gr_name);
+	*f = ft_strjoinf(*f, "\t");
+	tmp = ft_itoa(file->stat->st_size);
+	*f = ft_strjoinf(*f,tmp);
+	free(tmp);
+	*f = ft_strjoinf(*f, "\t");
+}
+void	showdetail(t_element *file)
+{
+	char *f;
+	f = strdup("");
+	showfirst(file, &f);
+	showright(file, &f);
+	shownumberinfo(file, &f);
+	showtime(file, &f);
+	f = ft_strjoinf(f, " ");
+	f = ft_strjoinf(f, file->path);
+	f = ft_strjoinf(f, "\n");
+	ft_putstr(f);
+	free(f);
 	return ;
 }
 void	verifyandshow(t_element *file, t_opt opt)
@@ -279,6 +301,18 @@ int	showfile(t_element *file, t_opt opt, uint8_t infolder_flag)
 	}
 	return (c);
 }
+void		swap_edata(t_element *un, t_element *deux)
+{
+	t_stat *save;
+	char *tmp;
+
+	save = un->stat;
+	un->stat = deux->stat;
+	deux->stat = save;
+	tmp = un->path;
+	un->path = deux->path;
+	deux->path = tmp;
+}
 t_element	*sortlexico(t_element *head)
 {
 	t_element 	*save;
@@ -294,9 +328,7 @@ t_element	*sortlexico(t_element *head)
 		{
 			if (ft_strcmp(head->path, head->next->path) > 0)
 			{
-				s = head->path;
-				head->path = head->next->path;
-				head->next->path = s;
+				swap_edata(head, head->next);
 				head->next->prev = head->prev;
 				head->prev = head;
 				swapped = 1;
@@ -322,9 +354,33 @@ t_element	*sortrlexico(t_element *head)
 		{
 			if (ft_strcmp(head->path, head->next->path) < 0)
 			{
-				s = head->path;
-				head->path = head->next->path;
-				head->next->path = s;
+				swap_edata(head, head->next);
+				head->next->prev = head->prev;
+				head->prev = head;
+				swapped = 1;
+			}
+			head = head->next;
+		}
+		head = save;
+	}
+	return (save);
+}
+
+t_element	*timesort(t_element *head)
+{
+	t_element 	*save;
+	uint8_t		swapped;
+
+	swapped = 1;
+	save = head;
+	while (swapped)
+	{
+		swapped = 0;
+		while (head->path && head->next->next)
+		{
+			if (head->stat->st_ctime < head->next->stat->st_ctime)
+			{
+				swap_edata(head, head->next);
 				head->next->prev = head->prev;
 				head->prev = head;
 				swapped = 1;
@@ -341,10 +397,11 @@ void	process_alist(t_element *file, t_element *folder, t_opt opt, uint8_t infold
 	int c;
 	
 	c = 0;
-	//showfile((opt.flag.rsort == 1 ? sortrlexico(file) : sortlexico(file)), opt, infolder_flag);
-	//showfolder((opt.flag.rsort == 1 ? sortrlexico(folder) : sortlexico(folder)), opt);
-	c = showfile(file, opt, infolder_flag);
-	showfolder(folder, opt, c);
+	file = (opt.flag.rsort == 1 ? sortrlexico(file) : sortlexico(file));
+	folder = (opt.flag.rsort == 1 ? sortrlexico(folder) : sortlexico(folder));
+	c = showfile((opt.flag.time == 1 ? timesort(file) : file), opt, infolder_flag);
+	showfolder((opt.flag.time == 1 ? timesort(folder) : folder), opt, c);
+	//showfolder(folder, opt, c);
 	return ;
 }
 /* =-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
@@ -389,5 +446,6 @@ int main(int argc, char **argv)
 		opt.arg->next = new_arg();
 		construct_alist(opt, 0);
 	}
+	while (1);
 	exit(0);
 }
