@@ -26,6 +26,7 @@ typedef struct	s_flag
 typedef struct	s_arg
 {
 	char 		*str;
+	char		*path;
 	struct	s_arg	*prev;
 	struct 	s_arg 	*next;
 }		t_arg;
@@ -38,6 +39,7 @@ typedef struct	s_el
 {
 	char 		*path;
 	t_stat		*stat;
+	char 		*realpath;
 	struct	s_el	*prev;
 	struct 	s_el 	*next;
 }		t_element;
@@ -47,4 +49,6 @@ typedef struct	s_dir
 	struct	s_dir	*next;
 	struct	s_dir	*prev;
 }		t_dir;
+
+void	construct_alist(t_opt opt, uint8_t infolder_flag, uint8_t r);
 #endif
