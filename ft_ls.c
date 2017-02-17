@@ -41,6 +41,7 @@ t_arg	*new_arg()
 	n->next = 0;
 	n->prev = 0;
 	n->str = 0;
+	n->path = 0;
 	return (n);
 }
 t_arg	*fill_arg(t_arg *actual, char *str, char *path, t_arg *next)
@@ -68,9 +69,10 @@ t_element	*new_element()
 	n->stat = 0;
 	n->prev = 0;
 	n->next = 0;
+	n->realpath = 0;
 	return (n);
 }
-t_element	*fill_element(t_element *actual, char *path, t_stat *istat, t_element *next)
+t_element	*fill_element(t_element *actual, char *path, char *basepath, t_stat *istat, t_element *next)
 {
 	t_stat stat;
 
@@ -80,12 +82,14 @@ t_element	*fill_element(t_element *actual, char *path, t_stat *istat, t_element 
 			actual->path = ft_strdup(path);
 		if (istat)
 			actual->stat = istat;
+		if (basepath)
+			actual->realpath = basepath;
 		if (next)
 			actual->next = next;
 		actual->next->prev = actual;
 	}
 	else
-		fill_element(new_element(), path, istat, next);
+		fill_element(new_element(), path, basepath, istat, next);
 	return (actual->next);
 }
 char *ft_strjoinf(char *src, char *dest)
@@ -169,26 +173,30 @@ char 	*build_path(char *base, char *file)
 	char 	*p;
 	char 	*tmp;
 
-	p = ft_strjoin(base, "/");
+	p = 0;
+	p = (base[ft_strlen(base) - 1] != '/' ? ft_strjoin(base, "/") : p);
 	tmp = p;
-	p = ft_strjoinf(p, file);
+	if (p != 0)
+		p = ft_strjoinf(p, file);
+	else
+		p = ft_strjoin(base, file);
 	return (p);
 }
-t_arg	*read_file(t_opt opt, char *path)
+t_arg	*read_file(t_opt opt, t_element *file)
 {
 	t_dirent	*info;
 	t_stat		*s;
 	t_arg		*f;
 	t_arg		*save;
 	DIR		*sf;
-
+	
 	f = new_arg();
 	save = f;
-	if ((sf = opendir(path)) == 0)
+	if ((sf = opendir(file->realpath)) == 0)
 		perror("ft_ls");
 	while ((info = readdir(sf)))
 	{
-		f = fill_arg(f, info->d_name, build_path(path, info->d_name), new_arg());
+		f = fill_arg(f, info->d_name, build_path(file->realpath, info->d_name), new_arg());
 	}
 	(void)closedir(sf);
 	return (save);	
@@ -203,9 +211,9 @@ void	showfolder(t_element *file, t_opt opt, int c)
 		if (file->next->next)
 			printfilename = 1;
 	while (file->next)
-	{
-		m_xor(printfilename, c, file->path);
-		if ((opt.arg = read_file(opt, file->path)) && opt.flag.recursive == 1)
+	{	
+		m_xor(printfilename, c, file->realpath);
+		if ((opt.arg = read_file(opt, file)) && opt.flag.recursive == 1)
 			construct_alist(opt, 1, 1);
 		else
 			construct_alist(opt, 1, 0);
@@ -297,9 +305,12 @@ void	shownumberinfo(t_element *file, char **f)
 	free(tmp);
 	*f = ft_strjoinf(*f, "\t");
 }
-void	showdetail(t_element *file)
+void	showdetail(t_element *file, uint8_t iff)
 {
-	char *f;
+	char 		*f;
+	char 		*rl;
+	unsigned int	nc;
+
 	f = strdup("");
 	showfirst(file, &f);
 	showright(file, &f);
@@ -307,22 +318,39 @@ void	showdetail(t_element *file)
 	showtime(file, &f);
 	f = ft_strjoinf(f, " ");
 	f = ft_strjoinf(f, file->path);
+	if (S_ISLNK(file->stat->st_mode))
+	{
+		if ((rl = malloc(sizeof(char) * file->stat->st_size + 1)) == 0)
+			perror("ft_lsq");
+		else
+		{
+			if ((nc = readlink((iff == 1 ? file->realpath : file->path), rl, file->stat->st_size + 1)) == -1)
+				perror("ft_lse");
+			else
+			{
+				rl[file->stat->st_size] = '\0';
+			}
+			f = ft_strjoinf(f, " ");
+			f = ft_strjoinf(f, "-> ");
+			f = ft_strjoinf(f, rl);
+		}
+	}
 	f = ft_strjoinf(f, "\n");
 	ft_putstr(f);
 	free(f);
 	return ;
 }
-void	verifyandshow(t_element *file, t_opt opt)
+void	verifyandshow(t_element *file, t_opt opt, uint8_t iff)
 {
 		if (opt.flag.all == 1 && file->path[0] == '.')
 			if (opt.flag.ld == 1)
-				showdetail(file);
+				showdetail(file, iff);
 			else
 				ft_putendl(file->path);
 		else if (file->path[0] != '.')
 		{
 			if (opt.flag.ld == 1)
-				showdetail(file);
+				showdetail(file, iff);
 			else
 				ft_putendl(file->path);
 		}
@@ -337,11 +365,11 @@ int	showfile(t_element *file, t_opt opt, uint8_t infolder_flag)
 	{
 		if (!S_ISDIR(file->stat->st_mode))
 		{
-			verifyandshow(file, opt);
+			verifyandshow(file, opt, infolder_flag);
 			c++;
 		}
 		else if (S_ISDIR(file->stat->st_mode) && infolder_flag == 1)
-			verifyandshow(file, opt);
+			verifyandshow(file, opt, infolder_flag);
 		if (file->path)
 			free(file->path);
 		if (file->stat && !S_ISDIR(file->stat->st_mode))
@@ -364,6 +392,13 @@ void		swap_edata(t_element *un, t_element *deux)
 	tmp = un->path;
 	un->path = deux->path;
 	deux->path = tmp;
+	tmp = 0;
+	if (un->realpath && deux->realpath)
+	{
+		tmp = un->realpath;
+		un->realpath = deux->realpath;
+		deux->realpath = tmp;
+	}
 }
 t_element	*sortlexico(t_element *head)
 {
@@ -463,7 +498,7 @@ void		recurseofnot(t_element *file, t_element *folder, uint8_t infolder_flag, ui
 
 	if (r == 1)
 	{
-		process_alist(file, folder, opt, infolder_flag);
+		process_alist(file, sortlexico(folder), opt, infolder_flag);
 	}
 	else
 	{
@@ -479,14 +514,14 @@ t_element	*antiloop(t_element *actual, t_opt opt, t_stat *s, uint8_t r, uint8_t 
 			if (opt.arg->str[0] == '.')
 			{
 				if (opt.flag.all == 1)
-					actual = fill_element(actual, opt.arg->str, s, new_element());
+					actual = fill_element(actual, opt.arg->str, opt.arg->path, s, new_element());
 			}
 			else
-				actual = fill_element(actual, opt.arg->str, s, new_element());
+				actual = fill_element(actual, opt.arg->str, opt.arg->path, s, new_element());
 		}
 	}
 	else
-		actual = fill_element(actual, opt.arg->str, s, new_element());
+		actual = fill_element(actual, opt.arg->str, opt.arg->path, s, new_element());
 	return (actual);
 }
 void		construct_alist(t_opt opt, uint8_t infolder_flag, uint8_t r)
@@ -503,13 +538,13 @@ void		construct_alist(t_opt opt, uint8_t infolder_flag, uint8_t r)
 	folder_save = folder;
 	while (opt.arg->next)
 	{
-		if ((s = malloc(sizeof(t_stat))) == 0 || (stat(opt.arg->str, s)) == -1)
+		if ((s = malloc(sizeof(t_stat))) == 0 || (lstat((infolder_flag == 1 ? opt.arg->path : opt.arg->str), s)) == -1)
 			perror("ft_ls");
 		else
 		{
-			if (S_ISDIR(s->st_mode))
+			if (S_ISDIR(s->st_mode) && (opt.arg->path = ft_strjoin((infolder_flag == 1 ? opt.arg->path : opt.arg->str), "/")))
 				folder = antiloop(folder, opt, s, r, infolder_flag);
-			file = fill_element(file, opt.arg->str, s, new_element());
+			file = fill_element(file, opt.arg->str, opt.arg->path, s, new_element());
 		}
 		opt.arg = opt.arg->next;
 		free_arg(opt.arg);
@@ -530,6 +565,5 @@ int main(int argc, char **argv)
 		opt.arg->next = new_arg();
 		construct_alist(opt, 0, 1);
 	}
-	while (1);
 	exit(0);
 }
