@@ -328,7 +328,7 @@ void	showdetail(t_element *file, uint8_t iff)
 	char 		*f;
 	unsigned int	nc;
 
-	f = ft_strdup(" ");
+	f = ft_strdup("");
 	showfirst(file, &f);
 	showright(file, &f);
 	shownumberinfo(file, &f);
@@ -370,9 +370,7 @@ void	showsize(t_element *hfile, t_opt opt)
 	h = hfile;
 	while (hfile->next)
 	{
-		if (hfile->path[0] == '.' && opt.flag.all == 1)
-				size += hfile->stat->st_blocks;
-		else
+		if ((hfile->path[0] == '.' && opt.flag.all == 1) || hfile->path[0] != '.')
 			size += hfile->stat->st_blocks;
 		hfile = hfile->next;
 	}
