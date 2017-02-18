@@ -305,13 +305,30 @@ void	shownumberinfo(t_element *file, char **f)
 	free(tmp);
 	*f = ft_strjoinf(*f, "\t");
 }
+void	showislink(t_element *file, uint8_t iff, char **f)
+{
+	char 	*rl;
+	int 	nc;
+
+	if ((rl = malloc(sizeof(char) * file->stat->st_size + 1)) == 0)
+		perror("ft_lsq");
+	else
+	{
+		if ((nc = readlink((iff == 1 ? file->realpath : file->path), rl, file->stat->st_size + 1)) == -1)
+			perror("ft_lse");
+		else
+			rl[file->stat->st_size] = '\0';
+		*f = ft_strjoinf(*f, " ");
+		*f = ft_strjoinf(*f, "-> ");
+		*f = ft_strjoinf(*f, rl);
+	}
+}
 void	showdetail(t_element *file, uint8_t iff)
 {
 	char 		*f;
-	char 		*rl;
 	unsigned int	nc;
 
-	f = strdup("");
+	f = ft_strdup(" ");
 	showfirst(file, &f);
 	showright(file, &f);
 	shownumberinfo(file, &f);
@@ -319,22 +336,7 @@ void	showdetail(t_element *file, uint8_t iff)
 	f = ft_strjoinf(f, " ");
 	f = ft_strjoinf(f, file->path);
 	if (S_ISLNK(file->stat->st_mode))
-	{
-		if ((rl = malloc(sizeof(char) * file->stat->st_size + 1)) == 0)
-			perror("ft_lsq");
-		else
-		{
-			if ((nc = readlink((iff == 1 ? file->realpath : file->path), rl, file->stat->st_size + 1)) == -1)
-				perror("ft_lse");
-			else
-			{
-				rl[file->stat->st_size] = '\0';
-			}
-			f = ft_strjoinf(f, " ");
-			f = ft_strjoinf(f, "-> ");
-			f = ft_strjoinf(f, rl);
-		}
-	}
+		showislink(file, iff, &f);
 	f = ft_strjoinf(f, "\n");
 	ft_putstr(f);
 	free(f);
@@ -355,12 +357,42 @@ void	verifyandshow(t_element *file, t_opt opt, uint8_t iff)
 				ft_putendl(file->path);
 		}
 }
+
+void	showsize(t_element *hfile, t_opt opt)
+{
+	t_element 	*h;
+	int 		size;
+	char 		*f;
+	char		*save;
+
+	f = ft_strdup("");
+	size = 0;
+	h = hfile;
+	while (hfile->next)
+	{
+		if (hfile->path[0] == '.' && opt.flag.all == 1)
+				size += hfile->stat->st_blocks;
+		else
+			size += hfile->stat->st_blocks;
+		hfile = hfile->next;
+	}
+	f = ft_strjoinf(f, "total ");
+	save = ft_itoa(size);
+	f = ft_strjoinf(f, save);
+	free(save);
+	f = ft_strjoinf(f, "\n");
+	ft_putstr(f);
+	free(f);
+	hfile = h;
+}
 int	showfile(t_element *file, t_opt opt, uint8_t infolder_flag)
 {
 	t_element *tmp;
 	int c;
 
 	c = 0;
+	if (opt.flag.ld == 1 && infolder_flag == 1)
+		showsize(file, opt);
 	while (file->path)
 	{
 		if (!S_ISDIR(file->stat->st_mode))
