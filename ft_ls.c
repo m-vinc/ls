@@ -190,15 +190,19 @@ t_arg	*read_file(t_opt opt, t_element *file)
 	t_arg		*save;
 	DIR		*sf;
 	
+	sf = 0;
 	f = new_arg();
 	save = f;
 	if ((sf = opendir(file->realpath)) == 0)
-		perror("ft_ls");
-	while ((info = readdir(sf)))
+		perror("ft_lsx");
+	else
 	{
-		f = fill_arg(f, info->d_name, build_path(file->realpath, info->d_name), new_arg());
+		while ((info = readdir(sf)))
+		{
+			f = fill_arg(f, info->d_name, build_path(file->realpath, info->d_name), new_arg());
+		}
+		(void)closedir(sf);
 	}
-	(void)closedir(sf);
 	return (save);	
 }
 void	showfolder(t_element *file, t_opt opt, int c)
@@ -238,7 +242,7 @@ void	showfirst(t_element *file, char **f)
 	if (S_ISCHR(file->stat->st_mode))
 		*f = ft_strjoinf(*f, "c");
 	if (S_ISBLK(file->stat->st_mode))
-		*f = ft_strjoinf(*f, "f");
+		*f = ft_strjoinf(*f, "b");
 	if (S_ISFIFO(file->stat->st_mode))
 		*f = ft_strjoinf(*f, "p");
 	if (S_ISLNK(file->stat->st_mode))
@@ -260,11 +264,24 @@ void	showright(t_element *file, char **f)
 	*f = ft_strjoinf(*f, (file->stat->st_mode & S_IWOTH) ? "w" : "-");
 	*f = ft_strjoinf(*f, (file->stat->st_mode & S_IXOTH) ? "x " : "- ");
 }
+void	addtime(char **time, char **f)
+{
+	int c;
+
+	c = 0;
+	*f = ft_strjoinf(*f, time[0]);
+	*f = ft_strjoinf(*f, ":");
+	*f = ft_strjoinf(*f, time[1]);
+	free(time[1]);
+	free(time[0]);
+	free(time[3]);
+}
 void	showtime(t_element *file, char **f)
 {
 	char 	**time;
 	int 	e;
 	char 	**s;
+	char 	**hour;
 
 	e = 0;
 	time = ft_strsplit(ctime(&file->stat->st_ctime), ' ');
@@ -272,7 +289,9 @@ void	showtime(t_element *file, char **f)
 	*f = ft_strjoinf(*f, " ");
 	*f = ft_strjoinf(*f, time[1]);
 	*f = ft_strjoinf(*f, " ");
-	*f = ft_strjoinf(*f, time[3]);
+	hour = ft_strsplit(time[3], ':');
+	addtime(hour, f);
+	free(hour);
 	s = time;
 	while (time[e] != 0)
 	{
@@ -283,6 +302,21 @@ void	showtime(t_element *file, char **f)
 		free(time[e]);
 	if (s)
 		free(s);
+}
+char	*get_majorminor(t_element *file)
+{
+	char *p;
+	char *tmp;
+
+	p = ft_strdup("");
+	tmp = ft_itoa(major(file->stat->st_rdev));
+	p = ft_strjoinf(p, tmp);
+	free(tmp);
+	p = ft_strjoinf(p, ", ");
+	tmp = ft_itoa(minor(file->stat->st_rdev));
+	p = ft_strjoinf(p, tmp);
+	free(tmp);
+	return (p);
 }
 void	shownumberinfo(t_element *file, char **f)
 {
@@ -297,10 +331,10 @@ void	shownumberinfo(t_element *file, char **f)
 	free(tmp);
 	*f = ft_strjoinf(*f, "\t");
 	*f = ft_strjoinf(*f, pwd->pw_name);
-	*f = ft_strjoinf(*f, "\t");
+	*f = ft_strjoinf(*f, " ");
 	*f = ft_strjoinf(*f, grp->gr_name);
 	*f = ft_strjoinf(*f, "\t");
-	tmp = ft_itoa(file->stat->st_size);
+	tmp = (S_ISCHR(file->stat->st_mode) || S_ISBLK(file->stat->st_mode) ? get_majorminor(file) : ft_itoa(file->stat->st_size));
 	*f = ft_strjoinf(*f,tmp);
 	free(tmp);
 	*f = ft_strjoinf(*f, "\t");
@@ -389,7 +423,7 @@ int	showfile(t_element *file, t_opt opt, uint8_t infolder_flag)
 	int c;
 
 	c = 0;
-	if (opt.flag.ld == 1 && infolder_flag == 1)
+	if (opt.flag.ld == 1 && infolder_flag == 1 && file->stat)
 		showsize(file, opt);
 	while (file->path)
 	{
@@ -446,8 +480,6 @@ t_element	*sortlexico(t_element *head)
 			if (ft_strcmp(head->path, head->next->path) > 0)
 			{
 				swap_edata(head, head->next);
-				head->next->prev = head->prev;
-				head->prev = head;
 				swapped = 1;
 			}
 			head = head->next;
@@ -459,26 +491,22 @@ t_element	*sortlexico(t_element *head)
 t_element	*sortrlexico(t_element *head)
 {
 	t_element 	*save;
-	uint8_t		swapped;
-	char		*s;
-
-	swapped = 1;
+	t_element 	*end;
+	char 		*s;
 	save = head;
-	while (swapped)
+	while (head->next)
+		head = head->next;
+	end = head;
+	head = save;
+	ft_putchar('x');
+	while(end->prev)
 	{
-		swapped = 0;
-		while (head->path && head->next->next)
+		if (end->path)
 		{
-			if (ft_strcmp(head->path, head->next->path) < 0)
-			{
-				swap_edata(head, head->next);
-				head->next->prev = head->prev;
-				head->prev = head;
-				swapped = 1;
-			}
+			swap_edata(head, end);
 			head = head->next;
 		}
-		head = save;
+		end = end->prev;
 	}
 	return (save);
 }
@@ -508,16 +536,14 @@ t_element	*timesort(t_element *head)
 	}
 	return (save);
 }
-/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- LISAGE DE DOSSIER + REBUILD PATH + CALL + RECURSIVE + TIMESORT == GG*/
+/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- TIMESORT + LEAKS + PADDING == GG*/
 void	process_alist(t_element *file, t_element *folder, t_opt opt, uint8_t infolder_flag)
 {
 	int c;
 	
 	c = 0;
-	file = (opt.flag.rsort == 1 ? sortrlexico(file) : sortlexico(file));
-	folder = (opt.flag.rsort == 1 ? sortrlexico(folder) : sortlexico(folder));
-	c = showfile((opt.flag.rsort == 1 ? timesort(file) : file), opt, infolder_flag);
-	showfolder((opt.flag.time == 1 ? timesort(folder) : folder), opt, c);
+	c = showfile(sortlexico(file), opt, infolder_flag); // condition -a -l -t -l
+	showfolder(sortlexico(folder), opt, c);
 	//showfolder(folder, opt, c);
 	return ;
 }
@@ -528,11 +554,11 @@ void		recurseofnot(t_element *file, t_element *folder, uint8_t infolder_flag, ui
 
 	if (r == 1)
 	{
-		process_alist(file, sortlexico(folder), opt, infolder_flag);
+		process_alist(file, folder, opt, infolder_flag);
 	}
 	else
 	{
-		c = showfile((opt.flag.time == 1 ? timesort(file) : sortlexico(file)), opt, infolder_flag);
+		c = showfile(sortlexico(file), opt, infolder_flag);//condition pour -a -l -r -t
 	}
 }
 t_element	*antiloop(t_element *actual, t_opt opt, t_stat *s, uint8_t r, uint8_t iff)

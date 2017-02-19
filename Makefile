@@ -7,7 +7,7 @@ LIB= libft/libft.a
 
 $(OUT): $(OFILE)
 	make -C libft/
-	gcc -o $(OUT) -Wall -Werror -Wextra $(OFILE) $(LIB)
+	gcc -o $(OUT) -Wall -Werror -Wextra $(OFILE) $(LIB) -fsanitize=address
 all: $(OUT)
 
 re: fclean all
