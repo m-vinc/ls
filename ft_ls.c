@@ -631,6 +631,5 @@ int main(int argc, char **argv)
 		opt.arg->next = new_arg();
 		construct_alist(opt, 0, 1);
 	}
-	while(1);
 	exit(0);
 }
