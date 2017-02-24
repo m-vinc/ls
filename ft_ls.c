@@ -236,10 +236,10 @@ void	showfolder(t_element *file, t_opt opt, int c)
 			ft_strdel(&file->realpath);
 		tmp = file;
 		file = file->next;
-		if (tmp)
+		if (tmp != 0)
 			free(tmp);
 	}
-	if (file)
+	if (file !=  0)
 		free(file);
 }
 void	showfirst(t_element *file, char **f)

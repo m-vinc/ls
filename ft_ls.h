@@ -37,11 +37,11 @@ typedef struct	s_opt
 }		t_opt;
 typedef struct	s_el
 {
-	char 		*path;
+	char 		*name;
 	t_stat		*stat;
-	char 		*realpath;
-	struct	s_el	*prev;
+	char 		*path;
 	struct 	s_el 	*next;
+	struct	s_el	*prev;
 }		t_element;
 typedef struct	s_dir
 {
