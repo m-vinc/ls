@@ -1,6 +1,6 @@
 OUT= ft_ls
 
-CFILE= ft_ls.c
+CFILE= main.c read_folder.c arg.c arg_list.c miscellaneous.c display.c get.c
 OFILE= $(CFILE:.c=.o)
 
 LIB= libft/libft.a

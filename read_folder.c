@@ -1,21 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rec.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/02/25 16:19:04 by vmorvan           #+#    #+#             */
+/*   Updated: 2017/02/25 18:03:13 by vmorvan          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_ls.h"
-
-typedef struct	s_es
-{
-	t_element *origin;
-	t_element *list;
-}				t_es;
-
-/*
- *
- *
- *				FONCTION DE TEST AVEC .
- *
- *
- *
- *
- *
- */
 
 t_element 	*create_element(void)
 {
@@ -34,9 +29,14 @@ t_element		*data_to_element(char *base, t_element *obj, char *name, t_stat *stat
 	char 		*tmp;
 
 	obj->name = ft_strdup(name);
-	tmp = ft_strjoin(base, "/");
-	obj->path = ft_strjoin(tmp, name);
-	free(tmp);
+	if (base)
+	{
+		tmp = ft_strjoin(base, "/");
+		obj->path = ft_strjoin(tmp, name);
+		free(tmp);
+	}
+	else
+		obj->path = 0;
 	obj->stat = stat;
 	obj->next = create_element();
 	return (obj->next);
@@ -103,32 +103,4 @@ void	wfree_element(t_element *hlist)
 		free(tmp);
 	}
 	free(hlist);
-}
-void	showfile(t_element *hflist, uint8_t ld)
-{
-	t_element *save;
-
-	save = hflist;
-	while (save->next)
-	{
-		if (ld == 0)
-			ft_putendl(save->name);
-		save = save->next;
-	}
-}
-int main(int argc, char **argv)
-{
-	t_element *hlist;
-	t_element *hdlist;
-	t_element *hdslist;
-
-	if (argc != 2)
-		return (0);
-	hdslist = hdlist;
-	hlist = create_list(argv[1], 0);
-	hdlist = create_dlist(hlist);
-	wfree_element(hlist);
-	wfree_element(hdlist);
-	while (1);
-	return (0);
 }
