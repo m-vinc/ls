@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 16:16:06 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/02/25 18:13:01 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/02/26 18:05:41 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,14 @@ void		wfree_element(t_element *hlist);
 int			element_length(t_element *hlist);
 int			arg_length(t_arg *hlist);
 /* ----------------DISPLAY.C--------------------------- */
-void		showfile(t_element *hflist, uint8_t ld);
+int			showfile(t_element *hflist, uint8_t ld);
 void		w_perror(char *str);
 /* ----------------GET.C------------------------------- */
 t_element	*get_argtofile(t_arg *hlist);
+t_element	*get_argtofolder(t_arg *hlist);
+/* ----------------SORT.C------------------------------ */
+t_element	*sortlexico(t_element *hlist);
+t_element	*sortreverse(t_element *hlist);
+void		swap_edata(t_element *un, t_element *deux);
+t_element	*sort(t_element *hlist, t_flag flag);
 #endif

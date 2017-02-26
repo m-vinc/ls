@@ -1,12 +1,13 @@
 OUT= ft_ls
 
-CFILE= main.c read_folder.c arg.c arg_list.c miscellaneous.c display.c get.c
+CFILE= main.c read_folder.c arg.c arg_list.c miscellaneous.c display.c get.c sort.c
 OFILE= $(CFILE:.c=.o)
 
 LIB= libft/libft.a
 
 $(OUT): $(OFILE)
 	make -C libft/
+	gcc -c $(CFILE) -Wall -Werror -Wextra
 	gcc -o $(OUT) -Wall -Werror -Wextra $(OFILE) $(LIB)
 all: $(OUT)
 

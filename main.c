@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 16:14:09 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/02/25 18:14:09 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/02/26 18:04:42 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 
 int main(int argc, char **argv)
 {
-	t_opt opt;
-	t_arg *s;
+	t_opt 	opt;
+	int 	x;
 
+	x = 0;
 	opt = init_flag(argc, argv);
-	showfile(get_argtofile(opt.arg), opt.flag.ld);
+	x = showfile(sort(get_argtofile(opt.arg), opt.flag), opt.flag.ld);
 	wfree_arg(opt.arg);
 	exit(0);
 }

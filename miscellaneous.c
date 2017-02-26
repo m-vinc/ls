@@ -40,3 +40,13 @@ int			arg_length(t_arg *hlist)
 	}
 	return (x);
 }
+char *ft_strjoinf(char *src, char *dest)
+{
+	char *t;
+
+	t = src;
+	src = ft_strjoin(src, dest);
+	if (t)
+		free(t);
+	return (src);
+}
