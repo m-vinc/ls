@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 17:29:21 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/02/25 17:39:12 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/02/26 21:12:33 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,14 @@ char *ft_strjoinf(char *src, char *dest)
 	if (t)
 		free(t);
 	return (src);
+}
+char	*build_path(char *base, char *name)
+{
+	char *tmp;
+	char *final;
+
+	tmp = ft_strjoin(base, "/");
+	final = ft_strjoin(tmp, name);
+	free(tmp);
+	return (final);
 }

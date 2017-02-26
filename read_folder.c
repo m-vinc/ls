@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 16:19:04 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/02/25 18:03:13 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/02/26 22:03:03 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,18 @@ t_element *create_list(char *path, int hidden)
 	t_dirent 	*dir;
 	t_stat		*s;
 	DIR	 		*folder;
+	char		*url;
 
-	folder = opendir(path);
+	if ((folder = opendir(path)) == 0)
+	{
+		w_perror(path);
+		return (0);
+	}
 	list.list = create_element();
 	list.origin = list.list;
 	while ((dir = readdir(folder)))
 	{
-		if ((s = malloc(sizeof(t_stat))) == 0 || lstat(dir->d_name, s) == -1)
+		if ((s = malloc(sizeof(t_stat))) == 0 || lstat((url = build_path(path, dir->d_name)), s) == -1)
 		{
 			perror("ft_ls");
 			free(s);
@@ -62,6 +67,7 @@ t_element *create_list(char *path, int hidden)
 			list.list = data_to_element(path, list.list, dir->d_name, s);
 		else
 			free(s);
+		free(url);
 	}
 	(void)closedir(folder);
 	return (list.origin);

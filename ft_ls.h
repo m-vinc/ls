@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 16:16:06 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/02/26 18:05:41 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/02/26 21:24:00 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ void		wfree_element(t_element *hlist);
 /* ----------------MISCELLANEOUS.C--------------------- */
 int			element_length(t_element *hlist);
 int			arg_length(t_arg *hlist);
+char		*ft_strjoinf(char *src, char *dest);
+char		*build_path(char *base, char *name);
 /* ----------------DISPLAY.C--------------------------- */
 int			showfile(t_element *hflist, uint8_t ld);
 void		w_perror(char *str);
@@ -92,4 +94,6 @@ t_element	*sortlexico(t_element *hlist);
 t_element	*sortreverse(t_element *hlist);
 void		swap_edata(t_element *un, t_element *deux);
 t_element	*sort(t_element *hlist, t_flag flag);
+/* ----------------USE_FOLDER_LIST.C-------------------- */
+void		show_flist(int x, t_element *folder, t_opt opt);
 #endif
