@@ -60,3 +60,18 @@ char	*build_path(char *base, char *name)
 	free(tmp);
 	return (final);
 }
+char	*get_majorminor(t_element *element)
+{
+	char *p;
+	char *tmp;
+
+	p = ft_strdup("");
+	tmp = ft_itoa(major(element->stat->st_rdev));
+	p = ft_strjoinf(p, tmp);
+	free(tmp);
+	p = ft_strjoinf(p, ", ");
+	tmp = ft_itoa(minor(element->stat->st_rdev));
+	p = ft_strjoinf(p, tmp);
+	free(tmp);
+	return (p);
+}

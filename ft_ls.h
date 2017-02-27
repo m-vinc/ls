@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 16:16:06 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/02/26 21:24:00 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/02/27 18:18:08 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,27 +34,26 @@ typedef struct	s_flag
 	uint8_t all;
 	uint8_t ld;
 	uint8_t time;
-}		t_flag;
+}				t_flag;
 typedef struct	s_arg
 {
-	char 		*str;
-	char		*path;
+	char 			*str;
+	char			*path;
 	struct 	s_arg 	*next;
-}		t_arg;
+}				t_arg;
 typedef struct	s_opt
 {
-	t_flag 	flag;
-	t_arg 	*arg;
+	t_flag 		flag;
+	t_arg 		*arg;
 }				t_opt;
 typedef struct	s_el
 {
-	char 		*name;
-	t_stat		*stat;
-	char 		*path;
+	char 			*name;
+	t_stat			*stat;
+	char 			*path;
 	struct 	s_el 	*next;
-}		t_element;
-
-typedef struct	s_es
+}				t_element;
+typedef struct s_es
 {
 	t_element *origin;
 	t_element *list;
@@ -83,7 +82,10 @@ int			element_length(t_element *hlist);
 int			arg_length(t_arg *hlist);
 char		*ft_strjoinf(char *src, char *dest);
 char		*build_path(char *base, char *name);
+char		*get_majorminor(t_element *element);
 /* ----------------DISPLAY.C--------------------------- */
+void		addtime(char **time, char **f);
+void		showdetail(t_element *element);
 int			showfile(t_element *hflist, uint8_t ld);
 void		w_perror(char *str);
 /* ----------------GET.C------------------------------- */
@@ -96,4 +98,11 @@ void		swap_edata(t_element *un, t_element *deux);
 t_element	*sort(t_element *hlist, t_flag flag);
 /* ----------------USE_FOLDER_LIST.C-------------------- */
 void		show_flist(int x, t_element *folder, t_opt opt);
+/* ----------------LONG_DISPLAY.C----------------------- */
+void		showfirst(t_element *element, char **f);
+void		showright(t_element *element, char **f);
+void		shownumberinfo(t_element *element, char **f);
+void		showtime(t_element *element, char **f);
+void		showislink(t_element *element, char **f);
+
 #endif
