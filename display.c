@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 17:45:48 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/02/27 17:34:46 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/02/28 12:28:00 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,9 @@ void	addtime(char **time, char **f)
 
 void	showdetail(t_element *element)
 {
-	char *f;
+	char 	*f;
+	//int		maxsize;
+	//int 	maxlink;
 
 	f = ft_strdup("");
 	showfirst(element, &f);

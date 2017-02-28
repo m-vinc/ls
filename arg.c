@@ -68,6 +68,8 @@ t_opt	init_flag(int argc, char **argv)
 		}
 		x++;
 	}
+	if (endarg == 0)
+		warg.list = data_to_arg(".", warg.list);
 	opt.arg = warg.origin;
 	return (opt);
 }

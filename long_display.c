@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 17:13:53 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/02/27 18:20:32 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/02/28 12:29:53 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,10 @@ void	shownumberinfo(t_element *element, char **f)
 	*f = ft_strjoinf(*f, " ");
 	*f = ft_strjoinf(*f, grp->gr_name);
 	*f = ft_strjoinf(*f, "\t");
-	tmp = (S_ISCHR(element->stat->st_mode) || S_ISBLK(element->stat->st_mode) ? get_majorminor(element) : ft_itoa(element->stat->st_size));
+	tmp = (S_ISCHR(element->stat->st_mode) || 
+			S_ISBLK(element->stat->st_mode) ? 
+			get_majorminor(element) : 
+			ft_itoa(element->stat->st_size));
 	*f = ft_strjoinf(*f,tmp);
 	free(tmp);
 	*f = ft_strjoinf(*f, "\t");
@@ -95,20 +98,13 @@ void	showtime(t_element *element, char **f)
 
 void	showislink(t_element *element, char **f)
 {
-	char 	*rl;
-	int 	nc;
-
-	if ((rl = malloc(sizeof(char) * element->stat->st_size + 1)) == 0)
-		perror("ft_lsq");
-	else
-	{
-		if ((nc = readlink((element->path ? element->path : element->name), rl, element->stat->st_size + 1)) == -1)
-			perror("ft_lse");
-		else
-			rl[element->stat->st_size] = '\0';
-		*f = ft_strjoinf(*f, " ");
-		*f = ft_strjoinf(*f, "-> ");
-		*f = ft_strjoinf(*f, rl);
-		free(rl);
-	}
+	char 	rl[1024];
+	int 	size;
+	
+	size = readlink((element->path ? 
+				element->path : element->name), rl, 1024);
+	rl[size] = '\0';
+	*f = ft_strjoinf(*f, " ");
+	*f = ft_strjoinf(*f, "-> ");
+	*f = ft_strjoinf(*f, rl);
 }

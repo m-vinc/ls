@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/26 17:28:15 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/02/26 20:28:37 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/02/28 11:24:32 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,26 @@ t_element	*sortreverse(t_element *hlist)
 }
 t_element	*sorttime(t_element *hlist)
 {
-	return (hlist);
+	t_element 	*save;
+	uint8_t		swapped;
+
+	swapped = 1;
+	save = hlist;
+	while (swapped)
+	{
+		swapped = 0;
+		while (hlist->name && hlist->next->next)
+		{
+			if (hlist->stat->st_mtime < hlist->next->stat->st_mtime)
+			{
+				swap_edata(hlist, hlist->next);
+				swapped = 1;
+			}
+			hlist = hlist->next;
+		}
+		hlist = save;
+	}
+	return (save);
 }
 t_element 	*sort(t_element *hlist, t_flag flag)
 {
