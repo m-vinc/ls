@@ -6,7 +6,7 @@
 /*   By: vmorvan <vmorvan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/11 14:43:20 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/02/27 18:09:37 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/01 19:29:49 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,11 @@ static int		cbdigit(int n)
 	}
 	return (c);
 }
-
+static char 	*w_zdup(char * ito)
+{
+	free(ito);
+	return (ft_strdup("0"));
+}		
 char			*ft_itoa(int n)
 {
 	int		digit;
@@ -43,7 +47,7 @@ char			*ft_itoa(int n)
 	if ((ito = (char *)malloc(sizeof(char) * (digit + 1))) == 0)
 		return (0);
 	if (n == 0)
-		return (ft_strdup("0"));
+		return (w_zdup(ito));
 	ito[digit] = 0;
 	if (n < 0)
 	{
