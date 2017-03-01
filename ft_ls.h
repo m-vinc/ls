@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 16:16:06 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/01 19:19:01 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/01 21:03:40 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,21 @@ typedef struct	s_as
 	t_arg		*origin;
 	t_arg		*list;
 }				t_as;
+typedef struct	s_max
+{
+	int			linkmax;
+	int			sizemax;
+	int			daymax;
+}				t_max;
+
 /* ----------------ARG.C - arg------------------------- */
-t_flag	zflag();
-t_opt	init_flag(int argc, char **argv);
-t_flag	putflag(t_flag flag, char *arg);
+t_flag		zflag();
+t_opt		init_flag(int argc, char **argv);
+t_flag		putflag(t_flag flag, char *arg);
 /* ----------------ARG_LIST.C-------------------------- */
-t_arg	*create_arg();
-t_arg	*data_to_arg(char *str, t_arg *obj);
-void	wfree_arg(t_arg *harg);
+t_arg		*create_arg();
+t_arg		*data_to_arg(char *str, t_arg *obj);
+void		wfree_arg(t_arg *harg);
 /* ----------------READ_FOLDER.C - file---------------- */
 t_element	*create_element(void);
 t_element	*data_to_element(char *base, t_element *obj, char *name, t_stat *stat);
@@ -88,6 +95,7 @@ void		addtime(char **time, char **f);
 void		showdetail(t_element *element);
 int			showfile(t_element *hflist, uint8_t ld);
 void		w_perror(char *str);
+t_max		init_max(t_element *element);
 /* ----------------GET.C------------------------------- */
 t_element	*get_argtofile(t_arg *hlist);
 t_element	*get_argtofolder(t_arg *hlist);

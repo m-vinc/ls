@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 17:45:48 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/02/28 12:28:00 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/01 21:04:48 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,36 @@ void	addtime(char **time, char **f)
 	}
 }
 
+t_max	init_max(t_element *element)
+{
+	int 		l;
+	t_element	*save;
+	t_max		max;
+	char		*tmp;
+
+	max.linkmax = 0;
+	max.sizemax = 0;
+	max.daymax = 0;
+	save = element;
+	l = 0;
+	while (save->next)
+	{
+		tmp = ft_itoa(save->stat->st_nlink);
+		if ((int)ft_strlen(tmp) > max.linkmax)
+			max.linkmax = ft_strlen(tmp);
+		free(tmp);
+		tmp = ft_itoa(save->stat->st_size);
+		if ((int)ft_strlen(tmp) > max.sizemax)
+			max.sizemax = ft_strlen(tmp);
+		free(tmp);
+		save = save->next;
+	}
+	return (max);
+}
+
 void	showdetail(t_element *element)
 {
 	char 	*f;
-	//int		maxsize;
-	//int 	maxlink;
 
 	f = ft_strdup("");
 	showfirst(element, &f);
@@ -90,7 +115,9 @@ int		showfile(t_element *hflist, uint8_t ld)
 		if (ld == 0)
 			ft_putendl(save->name);
 		else
+		{
 			showdetail(save);
+		}
 		x++;
 		save = save->next;
 	}
