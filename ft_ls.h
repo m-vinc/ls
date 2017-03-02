@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 16:16:06 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/01 21:03:40 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/02 17:07:05 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ char		*build_path(char *base, char *name);
 char		*get_majorminor(t_element *element);
 /* ----------------DISPLAY.C--------------------------- */
 void		addtime(char **time, char **f);
-void		showdetail(t_element *element);
+void		showdetail(t_element *element, t_max max);
 int			showfile(t_element *hflist, uint8_t ld);
 void		w_perror(char *str);
 t_max		init_max(t_element *element);
@@ -109,8 +109,9 @@ void		show_flist(int x, t_element *folder, t_opt opt);
 /* ----------------LONG_DISPLAY.C----------------------- */
 void		showfirst(t_element *element, char **f);
 void		showright(t_element *element, char **f);
-void		shownumberinfo(t_element *element, char **f);
+void		shownumberinfo(t_element *element, char **f, t_max max);
 void		showtime(t_element *element, char **f);
 void		showislink(t_element *element, char **f);
-
+/* ----------------PADDING.C----------------------------- */
+void		padding(char *data, char **str, int max);
 #endif

@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 17:13:53 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/01 19:19:56 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/02 18:30:27 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ void	showright(t_element *element, char **f)
 	*f = ft_strjoinf(*f, (element->stat->st_mode & S_IXGRP) ? "x" : "-");
 	*f = ft_strjoinf(*f ,(element->stat->st_mode & S_IROTH) ? "r" : "-");
 	*f = ft_strjoinf(*f, (element->stat->st_mode & S_IWOTH) ? "w" : "-");
-	*f = ft_strjoinf(*f, (element->stat->st_mode & S_IXOTH) ? "x " : "- ");
+	*f = ft_strjoinf(*f, (element->stat->st_mode & S_IXOTH) ? "x  " : "-  ");
 }
-void	shownumberinfo(t_element *element, char **f)
+void	shownumberinfo(t_element *element, char **f, t_max max)
 {
 	char *tmp;
 	struct passwd *pwd;
@@ -52,20 +52,22 @@ void	shownumberinfo(t_element *element, char **f)
 	grp = getgrgid(element->stat->st_gid);
 	pwd = getpwuid(element->stat->st_uid);
 	tmp =  ft_itoa(element->stat->st_nlink);
+	padding(tmp, f, max.linkmax);
 	*f = ft_strjoinf(*f, tmp);
 	free(tmp);
-	*f = ft_strjoinf(*f, "\t");
-	*f = ft_strjoinf(*f, pwd->pw_name);
 	*f = ft_strjoinf(*f, " ");
+	*f = ft_strjoinf(*f, pwd->pw_name);
+	*f = ft_strjoinf(*f, "  ");
 	*f = ft_strjoinf(*f, grp->gr_name);
-	*f = ft_strjoinf(*f, "\t");
+	*f = ft_strjoinf(*f, "  ");
 	tmp = (S_ISCHR(element->stat->st_mode) || 
 			S_ISBLK(element->stat->st_mode) ? 
 			get_majorminor(element) : 
 			ft_itoa(element->stat->st_size));
+	padding(tmp, f, max.sizemax);
 	*f = ft_strjoinf(*f,tmp);
 	free(tmp);
-	*f = ft_strjoinf(*f, "\t");
+	*f = ft_strjoinf(*f, " ");
 }
 void	showtime(t_element *element, char **f)
 {
@@ -78,7 +80,7 @@ void	showtime(t_element *element, char **f)
 	e = 0;
 	time = ft_strsplit(ctime(&element->stat->st_ctime), ' ');
 	*f = ft_strjoinf(*f, time[1]);
-	*f = ft_strjoinf(*f, " ");
+	*f = ft_strjoinf(*f, "  ");
 	*f = ft_strjoinf(*f, time[2]);
 	*f = ft_strjoinf(*f, " ");
 	hour = ft_strsplit(time[3], ':');

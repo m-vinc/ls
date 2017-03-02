@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/26 17:28:15 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/02/28 11:24:32 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/02 17:53:19 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ t_element	*sorttime(t_element *hlist)
 		swapped = 0;
 		while (hlist->name && hlist->next->next)
 		{
-			if (hlist->stat->st_mtime < hlist->next->stat->st_mtime)
+			if (hlist->stat->st_ctime < hlist->next->stat->st_ctime)
 			{
 				swap_edata(hlist, hlist->next);
 				swapped = 1;

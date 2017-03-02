@@ -1,3 +1,3 @@
 # ls
 
-LS command partial reproduction for 42 school;
+LS command partial reproduction for 42 school yay !;

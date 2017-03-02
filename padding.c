@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   padding.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/25 16:14:09 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/02 18:12:26 by vmorvan          ###   ########.fr       */
+/*   Created: 2017/03/02 16:52:38 by vmorvan           #+#    #+#             */
+/*   Updated: 2017/03/02 18:39:44 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-int main(int argc, char **argv)
+void	padding(char *data, char **str, int max)
 {
-	t_opt 		opt;
-	int 		x;
-	t_element	*folder;
+	int		l;
+	int		c;
 
-	x = 0;
-	opt = init_flag(argc, argv);
-	x = showfile(sort(get_argtofile(opt.arg), opt.flag), opt.flag.ld);
-	folder = sort(get_argtofolder(opt.arg), opt.flag);
-	show_flist(x, folder, opt);
-	wfree_arg(opt.arg);
-	exit(0);
+	l = ft_strlen(data);
+	c = max - l;
+	if (l > max)
+		return ;
+	while (c--)
+	{
+		ft_putnbr(c);
+		*str = ft_strjoinf(*str, " ");
+	}
 }

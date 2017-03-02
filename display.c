@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 17:45:48 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/01 21:04:48 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/02 18:37:51 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,38 +54,40 @@ void	addtime(char **time, char **f)
 t_max	init_max(t_element *element)
 {
 	int 		l;
-	t_element	*save;
 	t_max		max;
 	char		*tmp;
 
 	max.linkmax = 0;
 	max.sizemax = 0;
 	max.daymax = 0;
-	save = element;
 	l = 0;
-	while (save->next)
+	while (element->next)
 	{
-		tmp = ft_itoa(save->stat->st_nlink);
+		tmp = ft_itoa(element->stat->st_nlink);
 		if ((int)ft_strlen(tmp) > max.linkmax)
 			max.linkmax = ft_strlen(tmp);
 		free(tmp);
-		tmp = ft_itoa(save->stat->st_size);
-		if ((int)ft_strlen(tmp) > max.sizemax)
-			max.sizemax = ft_strlen(tmp);
-		free(tmp);
-		save = save->next;
+		if (!S_ISBLK(element->stat->st_mode) && 
+				!S_ISCHR(element->stat->st_mode))
+		{
+			tmp = ft_itoa(element->stat->st_size);
+			if ((int)ft_strlen(tmp) > max.sizemax)
+				max.sizemax = ft_strlen(tmp);
+			free(tmp);
+		}
+		element = element->next;
 	}
 	return (max);
 }
 
-void	showdetail(t_element *element)
+void	showdetail(t_element *element, t_max max)
 {
 	char 	*f;
 
 	f = ft_strdup("");
 	showfirst(element, &f);
 	showright(element, &f);
-	shownumberinfo(element, &f);
+	shownumberinfo(element, &f, max);
 	showtime(element, &f);
 	f = ft_strjoinf(f, " ");
 	f = ft_strjoinf(f, element->name);
@@ -105,19 +107,21 @@ int		showfile(t_element *hflist, uint8_t ld)
 {
 	t_element	*save;
 	int 		x;
-
+	t_max		max;
+	
 	x = 0;
 	save = hflist;
 	if (ld == 1 && hflist->name)
+	{
+		max = init_max(hflist);
 		showsize(hflist);
+	}
 	while (save->next)
 	{
 		if (ld == 0)
 			ft_putendl(save->name);
 		else
-		{
-			showdetail(save);
-		}
+			showdetail(save, max);
 		x++;
 		save = save->next;
 	}
