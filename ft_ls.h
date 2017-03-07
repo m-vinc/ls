@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 16:16:06 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/02 17:07:05 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/07 22:07:23 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,9 @@ int			arg_length(t_arg *hlist);
 char		*ft_strjoinf(char *src, char *dest);
 char		*build_path(char *base, char *name);
 char		*get_majorminor(t_element *element);
+/* ----------------MISCELLEANEOUS_1.C---------------------*/
+t_es		init_list();
+void		w_error(t_stat **s);
 /* ----------------DISPLAY.C--------------------------- */
 void		addtime(char **time, char **f);
 void		showdetail(t_element *element, t_max max);
@@ -112,6 +115,8 @@ void		showright(t_element *element, char **f);
 void		shownumberinfo(t_element *element, char **f, t_max max);
 void		showtime(t_element *element, char **f);
 void		showislink(t_element *element, char **f);
+/* ----------------LONG_DISPLAY_1.C-----------------------*/
+void		showsize(t_element *hfile);
 /* ----------------PADDING.C----------------------------- */
 void		padding(char *data, char **str, int max);
 #endif

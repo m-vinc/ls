@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 17:29:21 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/02/26 21:12:33 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/07 21:27:43 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int			element_length(t_element *hlist)
 {
-	int 		x;
-	t_element 	*save;
+	int			x;
+	t_element	*save;
 
 	x = 0;
 	save = hlist;
@@ -26,6 +26,7 @@ int			element_length(t_element *hlist)
 	}
 	return (x);
 }
+
 int			arg_length(t_arg *hlist)
 {
 	int			x;
@@ -40,7 +41,8 @@ int			arg_length(t_arg *hlist)
 	}
 	return (x);
 }
-char *ft_strjoinf(char *src, char *dest)
+
+char		*ft_strjoinf(char *src, char *dest)
 {
 	char *t;
 
@@ -50,7 +52,8 @@ char *ft_strjoinf(char *src, char *dest)
 		free(t);
 	return (src);
 }
-char	*build_path(char *base, char *name)
+
+char		*build_path(char *base, char *name)
 {
 	char *tmp;
 	char *final;
@@ -60,7 +63,8 @@ char	*build_path(char *base, char *name)
 	free(tmp);
 	return (final);
 }
-char	*get_majorminor(t_element *element)
+
+char		*get_majorminor(t_element *element)
 {
 	char *p;
 	char *tmp;

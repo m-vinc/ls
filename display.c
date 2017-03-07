@@ -6,36 +6,12 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 17:45:48 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/02 18:37:51 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/07 22:02:49 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	showsize(t_element *hfile)
-{
-	t_element 	*h;
-	int 		size;
-	char 		*f;
-	char		*save;
-
-	f = ft_strdup("");
-	size = 0;
-	h = hfile;
-	while (hfile->next)
-	{
-		size += hfile->stat->st_blocks;
-		hfile = hfile->next;
-	}
-	f = ft_strjoinf(f, "total ");
-	save = ft_itoa(size);
-	f = ft_strjoinf(f, save);
-	free(save);
-	f = ft_strjoinf(f, "\n");
-	ft_putstr(f);
-	free(f);
-	hfile = h;
-}
 void	addtime(char **time, char **f)
 {
 	int c;
@@ -53,7 +29,7 @@ void	addtime(char **time, char **f)
 
 t_max	init_max(t_element *element)
 {
-	int 		l;
+	int			l;
 	t_max		max;
 	char		*tmp;
 
@@ -67,7 +43,7 @@ t_max	init_max(t_element *element)
 		if ((int)ft_strlen(tmp) > max.linkmax)
 			max.linkmax = ft_strlen(tmp);
 		free(tmp);
-		if (!S_ISBLK(element->stat->st_mode) && 
+		if (!S_ISBLK(element->stat->st_mode) &&
 				!S_ISCHR(element->stat->st_mode))
 		{
 			tmp = ft_itoa(element->stat->st_size);
@@ -82,7 +58,7 @@ t_max	init_max(t_element *element)
 
 void	showdetail(t_element *element, t_max max)
 {
-	char 	*f;
+	char	*f;
 
 	f = ft_strdup("");
 	showfirst(element, &f);
@@ -98,17 +74,19 @@ void	showdetail(t_element *element, t_max max)
 	free(f);
 	return ;
 }
+
 void	w_perror(char *str)
 {
 	ft_putstr("ft_ls: ");
 	perror(str);
 }
+
 int		showfile(t_element *hflist, uint8_t ld)
 {
 	t_element	*save;
-	int 		x;
+	int			x;
 	t_max		max;
-	
+
 	x = 0;
 	save = hflist;
 	if (ld == 1 && hflist->name)

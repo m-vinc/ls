@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/26 17:28:15 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/02 17:53:19 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/07 21:23:47 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void		swap_edata(t_element *un, t_element *deux)
 {
-	t_stat *save;
-	char *tmp;
+	t_stat	*save;
+	char	*tmp;
 
 	save = un->stat;
 	un->stat = deux->stat;
@@ -31,9 +31,10 @@ void		swap_edata(t_element *un, t_element *deux)
 		deux->path = tmp;
 	}
 }
+
 t_element	*sortlexico(t_element *hlist)
 {
-	t_element 	*save;
+	t_element	*save;
 	uint8_t		swapped;
 
 	swapped = 1;
@@ -57,7 +58,7 @@ t_element	*sortlexico(t_element *hlist)
 
 t_element	*sortreverse(t_element *hlist)
 {
-	t_element 	*save;
+	t_element	*save;
 	int			l;
 	int			c;
 	int			e;
@@ -81,9 +82,10 @@ t_element	*sortreverse(t_element *hlist)
 	}
 	return (save);
 }
+
 t_element	*sorttime(t_element *hlist)
 {
-	t_element 	*save;
+	t_element	*save;
 	uint8_t		swapped;
 
 	swapped = 1;
@@ -104,7 +106,8 @@ t_element	*sorttime(t_element *hlist)
 	}
 	return (save);
 }
-t_element 	*sort(t_element *hlist, t_flag flag)
+
+t_element	*sort(t_element *hlist, t_flag flag)
 {
 	if (flag.time == 1)
 		sorttime(hlist);

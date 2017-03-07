@@ -6,7 +6,7 @@ void	argerror(char arg)
 	ft_putchar(arg);
 	ft_putchar('\n');
 	ft_putendl("usage: ft_ls [-Rrlta] [file...]");
-	exit(0);
+	exit(1);
 }
 t_flag	putflag(t_flag flag, char *arg)
 {
@@ -16,7 +16,7 @@ t_flag	putflag(t_flag flag, char *arg)
 		if (*arg != 'R' && *arg != 'r' && *arg != 'l' && *arg != 't' && *arg != 'a')
 		{
 			argerror(*arg);
-			exit(0);
+			exit(1);
 		}
 		if (*arg == 'R')
 			flag.recursive = 1;

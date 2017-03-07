@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/26 21:16:28 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/02/27 17:06:09 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/07 21:21:59 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	showfolder_name(t_element *folder)
 void	show_flist(int x, t_element *folder, t_opt opt)
 {
 	int			y;
-	t_element 	*flist;
+	t_element	*flist;
 	t_element	*dlist;
 	t_element	*save;
 
@@ -31,7 +31,8 @@ void	show_flist(int x, t_element *folder, t_opt opt)
 	{
 		if ((y > 1 || x != 0))
 			showfolder_name(folder);
-		flist = create_list((folder->path != 0 ? folder->path : folder->name), opt.flag.all);
+		flist = create_list((folder->path != 0 ? folder->path : folder->name),
+				opt.flag.all);
 		if (flist)
 		{
 			flist = sort(flist, opt.flag);

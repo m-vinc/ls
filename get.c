@@ -6,12 +6,11 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 17:52:29 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/02/26 17:38:56 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/07 21:24:51 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
-
 
 t_element	*get_argtofile(t_arg *hlist)
 {
@@ -40,7 +39,7 @@ t_element	*get_argtofile(t_arg *hlist)
 t_element	*get_argtofolder(t_arg *hlist)
 {
 	t_es	l;
-	t_stat 	*s;
+	t_stat	*s;
 
 	l.list = create_element();
 	l.origin = l.list;
@@ -60,4 +59,3 @@ t_element	*get_argtofolder(t_arg *hlist)
 	}
 	return (l.origin);
 }
-

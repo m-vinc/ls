@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   padding.c                                          :+:      :+:    :+:   */
+/*   miscellaneous_1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/02 16:52:38 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/07 20:49:51 by vmorvan          ###   ########.fr       */
+/*   Created: 2017/03/07 21:48:44 by vmorvan           #+#    #+#             */
+/*   Updated: 2017/03/07 22:06:48 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	padding(char *data, char **str, int max)
+t_es	init_list()
 {
-	int		l;
-	int		c;
+	t_es tmp;
 
-	l = ft_strlen(data);
-	c = max - l;
-	if (l > max)
-		return ;
-	while (c--)
-		*str = ft_strjoinf(*str, " ");
+	tmp.list = create_element();
+	tmp.origin = tmp.list;
+	return (tmp);
 }
+
+void	w_error(t_stat **s)
+{
+	perror("ft_ls");
+	free(s);
+}
+

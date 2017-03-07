@@ -1,6 +1,6 @@
 OUT= ft_ls
 
-CFILE= padding.c long_display.c use_folder_list.c main.c read_folder.c arg.c arg_list.c miscellaneous.c display.c get.c sort.c
+CFILE= miscellaneous_1.c long_display_1.c padding.c long_display.c use_folder_list.c main.c read_folder.c arg.c arg_list.c miscellaneous.c display.c get.c sort.c
 OFILE= $(CFILE:.c=.o)
 
 LIB= libft/libft.a

@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 17:13:53 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/02 18:30:27 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/07 21:20:57 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	showfirst(t_element *element, char **f)
 	if (S_ISWHT(element->stat->st_mode))
 		*f = ft_strjoinf(*f, "D");
 }
+
 void	showright(t_element *element, char **f)
 {
 	*f = ft_strjoinf(*f, (element->stat->st_mode & S_IRUSR) ? "r" : "-");
@@ -39,19 +40,20 @@ void	showright(t_element *element, char **f)
 	*f = ft_strjoinf(*f, (element->stat->st_mode & S_IRGRP) ? "r" : "-");
 	*f = ft_strjoinf(*f, (element->stat->st_mode & S_IWGRP) ? "w" : "-");
 	*f = ft_strjoinf(*f, (element->stat->st_mode & S_IXGRP) ? "x" : "-");
-	*f = ft_strjoinf(*f ,(element->stat->st_mode & S_IROTH) ? "r" : "-");
+	*f = ft_strjoinf(*f, (element->stat->st_mode & S_IROTH) ? "r" : "-");
 	*f = ft_strjoinf(*f, (element->stat->st_mode & S_IWOTH) ? "w" : "-");
 	*f = ft_strjoinf(*f, (element->stat->st_mode & S_IXOTH) ? "x  " : "-  ");
 }
+
 void	shownumberinfo(t_element *element, char **f, t_max max)
 {
-	char *tmp;
-	struct passwd *pwd;
-	struct group *grp;
+	char			*tmp;
+	struct passwd	*pwd;
+	struct group	*grp;
 
 	grp = getgrgid(element->stat->st_gid);
 	pwd = getpwuid(element->stat->st_uid);
-	tmp =  ft_itoa(element->stat->st_nlink);
+	tmp = ft_itoa(element->stat->st_nlink);
 	padding(tmp, f, max.linkmax);
 	*f = ft_strjoinf(*f, tmp);
 	free(tmp);
@@ -60,22 +62,22 @@ void	shownumberinfo(t_element *element, char **f, t_max max)
 	*f = ft_strjoinf(*f, "  ");
 	*f = ft_strjoinf(*f, grp->gr_name);
 	*f = ft_strjoinf(*f, "  ");
-	tmp = (S_ISCHR(element->stat->st_mode) || 
-			S_ISBLK(element->stat->st_mode) ? 
-			get_majorminor(element) : 
+	tmp = (S_ISCHR(element->stat->st_mode) ||
+			S_ISBLK(element->stat->st_mode) ?
+			get_majorminor(element) :
 			ft_itoa(element->stat->st_size));
 	padding(tmp, f, max.sizemax);
-	*f = ft_strjoinf(*f,tmp);
+	*f = ft_strjoinf(*f, tmp);
 	free(tmp);
 	*f = ft_strjoinf(*f, " ");
 }
+
 void	showtime(t_element *element, char **f)
 {
-	char 	**time;
-	int 	e;
-	char 	**s;
-	char 	**hour;
-
+	char	**time;
+	int		e;
+	char	**s;
+	char	**hour;
 
 	e = 0;
 	time = ft_strsplit(ctime(&element->stat->st_ctime), ' ');
@@ -100,10 +102,10 @@ void	showtime(t_element *element, char **f)
 
 void	showislink(t_element *element, char **f)
 {
-	char 	rl[1024];
-	int 	size;
-	
-	size = readlink((element->path ? 
+	char	rl[1024];
+	int		size;
+
+	size = readlink((element->path ?
 				element->path : element->name), rl, 1024);
 	rl[size] = '\0';
 	*f = ft_strjoinf(*f, " ");

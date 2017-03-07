@@ -6,13 +6,13 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 16:19:04 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/02/26 22:03:03 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/07 22:10:19 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-t_element 	*create_element(void)
+t_element		*create_element(void)
 {
 	t_element *new;
 
@@ -24,9 +24,11 @@ t_element 	*create_element(void)
 	new->next = 0;
 	return (new);
 }
-t_element		*data_to_element(char *base, t_element *obj, char *name, t_stat *stat)
+
+t_element		*data_to_element(char *base, t_element *obj,
+		char *name, t_stat *stat)
 {
-	char 		*tmp;
+	char	*tmp;
 
 	obj->name = ft_strdup(name);
 	if (base)
@@ -41,12 +43,13 @@ t_element		*data_to_element(char *base, t_element *obj, char *name, t_stat *stat
 	obj->next = create_element();
 	return (obj->next);
 }
-t_element *create_list(char *path, int hidden)
+
+t_element		*create_list(char *path, int hidden)
 {
-	t_es 		list;
-	t_dirent 	*dir;
+	t_es		list;
+	t_dirent	*dir;
 	t_stat		*s;
-	DIR	 		*folder;
+	DIR			*folder;
 	char		*url;
 
 	if ((folder = opendir(path)) == 0)
@@ -54,15 +57,12 @@ t_element *create_list(char *path, int hidden)
 		w_perror(path);
 		return (0);
 	}
-	list.list = create_element();
-	list.origin = list.list;
+	list = init_list();
 	while ((dir = readdir(folder)))
 	{
-		if ((s = malloc(sizeof(t_stat))) == 0 || lstat((url = build_path(path, dir->d_name)), s) == -1)
-		{
-			perror("ft_ls");
-			free(s);
-		}
+		url = build_path(path, dir->d_name);
+		if ((s = malloc(sizeof(t_stat))) == 0 || lstat(url, s) == -1)
+			w_error(&s);
 		else if ((dir->d_name[0] == '.' && hidden) || dir->d_name[0] != '.')
 			list.list = data_to_element(path, list.list, dir->d_name, s);
 		else
@@ -72,17 +72,20 @@ t_element *create_list(char *path, int hidden)
 	(void)closedir(folder);
 	return (list.origin);
 }
-t_element *create_dlist(t_element *flist)
+
+t_element		*create_dlist(t_element *flist)
 {
-	t_element 	*save;
-	t_es 		list;
+	t_element	*save;
+	t_es		list;
 
 	save = flist;
 	list.list = create_element();
 	list.origin = list.list;
 	while (save->next)
 	{
-		if (S_ISDIR(save->stat->st_mode) && ft_strcmp(".", save->name) != 0 && ft_strcmp("..", save->name) != 0)
+		if (S_ISDIR(save->stat->st_mode) &&
+				ft_strcmp(".", save->name) != 0 &&
+				ft_strcmp("..", save->name) != 0)
 		{
 			list.list->name = ft_strdup(save->name);
 			list.list->path = ft_strdup(save->path);
@@ -95,7 +98,8 @@ t_element *create_dlist(t_element *flist)
 	}
 	return (list.origin);
 }
-void	wfree_element(t_element *hlist)
+
+void			wfree_element(t_element *hlist)
 {
 	t_element *tmp;
 
