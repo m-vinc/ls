@@ -6,15 +6,16 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 16:34:59 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/02/25 17:00:25 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/07 22:41:02 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-t_arg	*create_arg()
+t_arg	*create_arg(void)
 {
 	t_arg	*new;
+
 	if ((new = malloc(sizeof(t_arg))) == 0)
 	{
 		perror("ft_ls");
@@ -31,6 +32,7 @@ t_arg	*data_to_arg(char *str, t_arg *obj)
 	obj->next = create_arg();
 	return (obj->next);
 }
+
 void	wfree_arg(t_arg *harg)
 {
 	t_arg *tmp;

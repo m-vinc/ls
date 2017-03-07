@@ -6,7 +6,7 @@
 /*   By: vmorvan <vmorvan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/11 14:43:20 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/01 19:29:49 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/07 23:03:12 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,13 @@ static int		cbdigit(int n)
 	}
 	return (c);
 }
-static char 	*w_zdup(char * ito)
+
+static char		*w_zdup(char *ito)
 {
 	free(ito);
 	return (ft_strdup("0"));
-}		
+}
+
 char			*ft_itoa(int n)
 {
 	int		digit;

@@ -6,16 +6,16 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 16:14:09 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/02 18:12:26 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/07 22:37:57 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	t_opt 		opt;
-	int 		x;
+	t_opt		opt;
+	int			x;
 	t_element	*folder;
 
 	x = 0;

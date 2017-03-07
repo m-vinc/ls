@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   arg.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/03/07 22:38:12 by vmorvan           #+#    #+#             */
+/*   Updated: 2017/03/07 22:40:04 by vmorvan          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_ls.h"
 
-void	argerror(char arg)
+void		argerror(char arg)
 {
 	ft_putstr("ft_ls: illegal option -- ");
 	ft_putchar(arg);
@@ -8,12 +20,17 @@ void	argerror(char arg)
 	ft_putendl("usage: ft_ls [-Rrlta] [file...]");
 	exit(1);
 }
-t_flag	putflag(t_flag flag, char *arg)
+
+t_flag		putflag(t_flag flag, char *arg)
 {
 	arg++;
 	while (*arg)
 	{
-		if (*arg != 'R' && *arg != 'r' && *arg != 'l' && *arg != 't' && *arg != 'a')
+		if (*arg != 'R' &&
+				*arg != 'r' &&
+				*arg != 'l' &&
+				*arg != 't' &&
+				*arg != 'a')
 		{
 			argerror(*arg);
 			exit(1);
@@ -33,7 +50,7 @@ t_flag	putflag(t_flag flag, char *arg)
 	return (flag);
 }
 
-t_flag zflag()
+t_flag		zflag(void)
 {
 	t_flag flag;
 
@@ -45,10 +62,10 @@ t_flag zflag()
 	return (flag);
 }
 
-t_opt	init_flag(int argc, char **argv)
+t_opt		init_flag(int argc, char **argv)
 {
 	t_opt	opt;
-	int 	x;
+	int		x;
 	uint8_t	endarg;
 	t_as	warg;
 
