@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 17:45:48 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/07 22:02:49 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/08 01:41:33 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,7 @@ t_max	init_max(t_element *element)
 	t_max		max;
 	char		*tmp;
 
-	max.linkmax = 0;
-	max.sizemax = 0;
-	max.daymax = 0;
+	max = zmax();
 	l = 0;
 	while (element->next)
 	{
@@ -43,14 +41,14 @@ t_max	init_max(t_element *element)
 		if ((int)ft_strlen(tmp) > max.linkmax)
 			max.linkmax = ft_strlen(tmp);
 		free(tmp);
+		max = getgroupmax(max, element);
 		if (!S_ISBLK(element->stat->st_mode) &&
 				!S_ISCHR(element->stat->st_mode))
 		{
-			tmp = ft_itoa(element->stat->st_size);
-			if ((int)ft_strlen(tmp) > max.sizemax)
-				max.sizemax = ft_strlen(tmp);
-			free(tmp);
+			max = getsizemax(max, element);
 		}
+		else
+			max = getmajminmax(max, element);
 		element = element->next;
 	}
 	return (max);

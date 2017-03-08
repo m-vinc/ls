@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 16:16:06 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/07 22:59:13 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/08 01:22:59 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,9 @@ typedef struct	s_max
 	int			linkmax;
 	int			sizemax;
 	int			daymax;
+	int			majormax;
+	int			minormax;
+	int			grpmax;
 }				t_max;
 
 /* ----------------ARG.C - arg------------------------- */
@@ -95,7 +98,8 @@ char			*build_path(char *base, char *name);
 char			*get_majorminor(t_element *element);
 /* ----------------MISCELLEANEOUS_1.C---------------------*/
 t_es			init_list();
-void			w_error(t_stat **s);
+void			w_error(t_stat **s, char *url);
+t_max			zmax();
 /* ----------------DISPLAY.C--------------------------- */
 void			addtime(char **time, char **f);
 void			showdetail(t_element *element, t_max max);
@@ -105,6 +109,9 @@ t_max			init_max(t_element *element);
 /* ----------------GET.C------------------------------- */
 t_element		*get_argtofile(t_arg *hlist);
 t_element		*get_argtofolder(t_arg *hlist);
+t_max			getmajminmax(t_max max, t_element *element);
+t_max			getgroupmax(t_max max, t_element *element);
+t_max			getsizemax(t_max max, t_element *element);
 /* ----------------SORT.C------------------------------ */
 t_element		*sortlexico(t_element *hlist);
 t_element		*sortreverse(t_element *hlist);
@@ -121,5 +128,8 @@ void			showislink(t_element *element, char **f);
 /* ----------------LONG_DISPLAY_1.C-----------------------*/
 void			showsize(t_element *hfile);
 /* ----------------PADDING.C----------------------------- */
-void			padding(char *data, char **str, int max);
+void			padding(char *data, char **str, t_max max,
+		t_element *element, uint8_t mode);
+void			padding_mm(t_element *element, t_max max, char **str);
+void			padding_grp(char *gr_name, t_max max, char **str);
 #endif

@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 16:19:04 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/07 22:10:19 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/07 23:10:08 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_element		*create_list(char *path, int hidden)
 	{
 		url = build_path(path, dir->d_name);
 		if ((s = malloc(sizeof(t_stat))) == 0 || lstat(url, s) == -1)
-			w_error(&s);
+			w_error(&s, dir->d_name);
 		else if ((dir->d_name[0] == '.' && hidden) || dir->d_name[0] != '.')
 			list.list = data_to_element(path, list.list, dir->d_name, s);
 		else

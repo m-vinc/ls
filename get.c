@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 17:52:29 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/07 21:24:51 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/08 01:34:22 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ t_element	*get_argtofolder(t_arg *hlist)
 	{
 		if ((s = malloc(sizeof(t_stat))) == 0 || (lstat(hlist->str, s)) == -1)
 		{
-			w_perror(hlist->str);
 			if (s)
 				free(s);
 		}
@@ -58,4 +57,45 @@ t_element	*get_argtofolder(t_arg *hlist)
 		hlist = hlist->next;
 	}
 	return (l.origin);
+}
+
+t_max		getmajminmax(t_max max, t_element *element)
+{
+	char	*tmp;
+	int		itmp;
+
+	tmp = ft_itoa(major(element->stat->st_rdev));
+	itmp = (int)ft_strlen(tmp);
+	if (itmp > max.majormax)
+		max.majormax = itmp;
+	free(tmp);
+	tmp = ft_itoa(minor(element->stat->st_rdev));
+	itmp = (int)ft_strlen(tmp);
+	if (itmp > max.minormax)
+		max.minormax = itmp;
+	free(tmp);
+	return (max);
+}
+t_max		getgroupmax(t_max max, t_element *element)
+{
+	int				itmp;
+	struct	group	*grp;
+
+	grp = getgrgid(element->stat->st_gid);
+	itmp = (int)ft_strlen(grp->gr_name);
+	if (itmp > max.grpmax)
+		max.grpmax = itmp;
+	return (max);
+}
+t_max		getsizemax(t_max max, t_element *element)
+{
+	char	*tmp;
+	int		l;
+
+	tmp = ft_itoa(element->stat->st_size);
+	l = ft_strlen(tmp);
+	if (l > max.sizemax)
+		max.sizemax = l;
+	free(tmp);
+	return (max);
 }

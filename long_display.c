@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 17:13:53 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/07 21:20:57 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/08 01:41:12 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,20 +54,22 @@ void	shownumberinfo(t_element *element, char **f, t_max max)
 	grp = getgrgid(element->stat->st_gid);
 	pwd = getpwuid(element->stat->st_uid);
 	tmp = ft_itoa(element->stat->st_nlink);
-	padding(tmp, f, max.linkmax);
+	padding(tmp, f, max, element, 0);
 	*f = ft_strjoinf(*f, tmp);
 	free(tmp);
 	*f = ft_strjoinf(*f, " ");
 	*f = ft_strjoinf(*f, pwd->pw_name);
-	*f = ft_strjoinf(*f, "  ");
+	*f = ft_strjoin(*f, "  ");
 	*f = ft_strjoinf(*f, grp->gr_name);
-	*f = ft_strjoinf(*f, "  ");
 	tmp = (S_ISCHR(element->stat->st_mode) ||
 			S_ISBLK(element->stat->st_mode) ?
-			get_majorminor(element) :
+			0 :
 			ft_itoa(element->stat->st_size));
-	padding(tmp, f, max.sizemax);
-	*f = ft_strjoinf(*f, tmp);
+	(tmp == 0 ? padding_grp(grp->gr_name, max, f) : 0);
+	padding(tmp, f, max, element, 1);
+	*f = ft_strjoin(*f, "  ");
+	if (tmp != 0)
+		*f = ft_strjoinf(*f, tmp);
 	free(tmp);
 	*f = ft_strjoinf(*f, " ");
 }

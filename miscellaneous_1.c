@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/07 21:48:44 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/07 22:36:30 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/08 00:49:39 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,22 @@ t_es	init_list(void)
 	return (tmp);
 }
 
-void	w_error(t_stat **s)
+void	w_error(t_stat **s, char *url)
 {
-	perror("ft_ls");
+	ft_putstr("ft_ls: ");
+	perror(url);
 	free(s);
+}
+
+t_max	zmax(void)
+{
+	t_max max;
+
+	max.linkmax = 0;
+	max.sizemax = 0;
+	max.daymax = 0;
+	max.majormax = 0;
+	max.minormax = 0;
+	max.grpmax = 0;
+	return (max);
 }
