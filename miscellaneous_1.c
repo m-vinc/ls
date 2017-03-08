@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/07 21:48:44 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/08 00:49:39 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/08 02:20:16 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,6 @@ t_max	zmax(void)
 	max.majormax = 0;
 	max.minormax = 0;
 	max.grpmax = 0;
+	max.mode = 0;
 	return (max);
 }

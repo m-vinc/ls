@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 16:16:06 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/08 01:22:59 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/08 02:20:36 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct	s_max
 	int			majormax;
 	int			minormax;
 	int			grpmax;
+	uint8_t		mode;
 }				t_max;
 
 /* ----------------ARG.C - arg------------------------- */
@@ -129,7 +130,7 @@ void			showislink(t_element *element, char **f);
 void			showsize(t_element *hfile);
 /* ----------------PADDING.C----------------------------- */
 void			padding(char *data, char **str, t_max max,
-		t_element *element, uint8_t mode);
+		t_element *element);
 void			padding_mm(t_element *element, t_max max, char **str);
 void			padding_grp(char *gr_name, t_max max, char **str);
 #endif

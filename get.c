@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 17:52:29 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/08 01:34:22 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/08 02:26:17 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,11 @@ t_max		getmajminmax(t_max max, t_element *element)
 	free(tmp);
 	return (max);
 }
+
 t_max		getgroupmax(t_max max, t_element *element)
 {
 	int				itmp;
-	struct	group	*grp;
+	struct group	*grp;
 
 	grp = getgrgid(element->stat->st_gid);
 	itmp = (int)ft_strlen(grp->gr_name);
@@ -87,6 +88,7 @@ t_max		getgroupmax(t_max max, t_element *element)
 		max.grpmax = itmp;
 	return (max);
 }
+
 t_max		getsizemax(t_max max, t_element *element)
 {
 	char	*tmp;

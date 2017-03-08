@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 16:52:38 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/08 01:30:13 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/08 02:21:29 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,17 @@ void	padding_mm(t_element *element, t_max max, char **str)
 	free(tmp);
 }
 
-void	padding(char *data, char **str, t_max max, t_element *element, uint8_t mode)
+void	padding(char *data, char **str, t_max max, t_element *element)
 {
 	int		l;
 	int		c;
-	
+
 	if (data == 0)
 		padding_mm(element, max, str);
 	else
 	{
 		l = ft_strlen(data);
-		c = (mode == 0 ? max.linkmax : max.sizemax) - l;
+		c = (max.mode == 0 ? max.linkmax : max.sizemax) - l;
 		if (l == max.sizemax)
 			return ;
 		if (l > max.sizemax)
