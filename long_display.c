@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 17:13:53 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/08 02:24:42 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/08 02:38:39 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,14 @@ void	shownumberinfo(t_element *element, char **f, t_max max)
 	free(tmp);
 	*f = ft_strjoinf(*f, " ");
 	*f = ft_strjoinf(*f, pwd->pw_name);
-	*f = ft_strjoin(*f, "  ");
+	*f = ft_strjoinf(*f, "  ");
 	*f = ft_strjoinf(*f, grp->gr_name);
 	tmp = (S_ISCHR(element->stat->st_mode) || S_ISBLK(element->stat->st_mode)
 			? 0 : ft_itoa(element->stat->st_size));
 	(tmp == 0 ? padding_grp(grp->gr_name, max, f) : 0);
 	max.mode = 1;
 	padding(tmp, f, max, element);
-	*f = ft_strjoin(*f, "  ");
+	*f = ft_strjoinf(*f, "  ");
 	if (tmp != 0)
 		*f = ft_strjoinf(*f, tmp);
 	free(tmp);

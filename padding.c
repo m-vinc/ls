@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 16:52:38 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/08 02:21:29 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/08 02:37:26 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void	padding_mm(t_element *element, t_max max, char **str)
 	l = (int)ft_strlen(tmp);
 	space = max.minormax - l;
 	while (space--)
-		*str = ft_strjoin(*str, " ");
-	*str = ft_strjoin(*str, tmp);
+		*str = ft_strjoinf(*str, " ");
+	*str = ft_strjoinf(*str, tmp);
 	free(tmp);
 }
 

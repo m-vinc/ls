@@ -6,13 +6,13 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 17:52:29 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/08 02:26:17 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/08 05:00:47 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-t_element	*get_argtofile(t_arg *hlist)
+t_element	*get_argtofile(t_arg *hlist, t_flag flag)
 {
 	t_es	l;
 	t_stat	*s;
@@ -27,7 +27,8 @@ t_element	*get_argtofile(t_arg *hlist)
 			if (s)
 				free(s);
 		}
-		else if (!S_ISDIR(s->st_mode))
+		else if ((S_ISDIR(s->st_mode) && flag.nocontent == 1) ||
+				!S_ISDIR(s->st_mode))
 			l.list = data_to_element(0, l.list, hlist->str, s);
 		else
 			free(s);

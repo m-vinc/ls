@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 16:16:06 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/08 02:20:36 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/08 05:01:02 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,10 @@ typedef struct	s_flag
 	uint8_t all;
 	uint8_t ld;
 	uint8_t time;
+	uint8_t	size;
+	uint8_t	nosort;
+	uint8_t	accesstime;
+	uint8_t	nocontent;
 }				t_flag;
 typedef struct	s_arg
 {
@@ -101,14 +105,15 @@ char			*get_majorminor(t_element *element);
 t_es			init_list();
 void			w_error(t_stat **s, char *url);
 t_max			zmax();
+t_flag			another_flag(char x, t_flag flag);
 /* ----------------DISPLAY.C--------------------------- */
 void			addtime(char **time, char **f);
 void			showdetail(t_element *element, t_max max);
-int				showfile(t_element *hflist, uint8_t ld);
+int				showfile(t_element *hflist, uint8_t ld, int f_showsize);
 void			w_perror(char *str);
 t_max			init_max(t_element *element);
 /* ----------------GET.C------------------------------- */
-t_element		*get_argtofile(t_arg *hlist);
+t_element		*get_argtofile(t_arg *hlist, t_flag flag);
 t_element		*get_argtofolder(t_arg *hlist);
 t_max			getmajminmax(t_max max, t_element *element);
 t_max			getgroupmax(t_max max, t_element *element);
@@ -118,6 +123,10 @@ t_element		*sortlexico(t_element *hlist);
 t_element		*sortreverse(t_element *hlist);
 void			swap_edata(t_element *un, t_element *deux);
 t_element		*sort(t_element *hlist, t_flag flag);
+t_element		*sortsize(t_element *hlist);
+/* ----------------SORT_1.C----------------------------- */
+t_element		*sorttime(t_element *hlist);
+t_element		*sorttime_u(t_element *hlist);
 /* ----------------USE_FOLDER_LIST.C-------------------- */
 void			show_flist(int x, t_element *folder, t_opt opt);
 /* ----------------LONG_DISPLAY.C----------------------- */

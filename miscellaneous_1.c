@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/07 21:48:44 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/08 02:20:16 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/08 05:02:38 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,20 @@ t_max	zmax(void)
 	max.grpmax = 0;
 	max.mode = 0;
 	return (max);
+}
+
+t_flag	another_flag(char x, t_flag flag)
+{
+	if (x == 'f')
+	{
+		flag.nosort = 1;
+		flag.all = 1;
+	}
+	if (x == 'S')
+		flag.size = 1;
+	if (x == 'u')
+		flag.accesstime = 1;
+	if (x == 'd')
+		flag.nocontent = 1;
+	return (flag);
 }

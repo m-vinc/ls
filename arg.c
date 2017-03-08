@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/07 22:38:12 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/07 22:40:04 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/08 05:03:54 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void		argerror(char arg)
 	ft_putstr("ft_ls: illegal option -- ");
 	ft_putchar(arg);
 	ft_putchar('\n');
-	ft_putendl("usage: ft_ls [-Rrlta] [file...]");
+	ft_putendl("usage: ft_ls [-RrltaSfd] [file...]");
 	exit(1);
 }
 
@@ -26,11 +26,9 @@ t_flag		putflag(t_flag flag, char *arg)
 	arg++;
 	while (*arg)
 	{
-		if (*arg != 'R' &&
-				*arg != 'r' &&
-				*arg != 'l' &&
-				*arg != 't' &&
-				*arg != 'a')
+		if (*arg != 'R' && *arg != 'r' && *arg != 'l' &&
+				*arg != 't' && *arg != 'a' && *arg != 'S' && *arg != 'f' &&
+				*arg != 'u' && *arg != 'd')
 		{
 			argerror(*arg);
 			exit(1);
@@ -45,6 +43,7 @@ t_flag		putflag(t_flag flag, char *arg)
 			flag.time = 1;
 		if (*arg == 'a')
 			flag.all = 1;
+		flag = another_flag(*arg, flag);
 		arg++;
 	}
 	return (flag);
@@ -59,6 +58,7 @@ t_flag		zflag(void)
 	flag.all = 0;
 	flag.ld = 0;
 	flag.time = 0;
+	flag.size = 0;
 	return (flag);
 }
 

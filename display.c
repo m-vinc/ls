@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 17:45:48 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/08 01:41:33 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/08 04:20:54 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	w_perror(char *str)
 	perror(str);
 }
 
-int		showfile(t_element *hflist, uint8_t ld)
+int		showfile(t_element *hflist, uint8_t ld, int f_showsize)
 {
 	t_element	*save;
 	int			x;
@@ -90,7 +90,7 @@ int		showfile(t_element *hflist, uint8_t ld)
 	if (ld == 1 && hflist->name)
 	{
 		max = init_max(hflist);
-		showsize(hflist);
+		(f_showsize == 1 ? showsize(hflist) : 0);
 	}
 	while (save->next)
 	{

@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/26 17:28:15 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/07 21:23:47 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/08 04:43:21 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ t_element	*sortreverse(t_element *hlist)
 	return (save);
 }
 
-t_element	*sorttime(t_element *hlist)
+t_element	*sortsize(t_element *hlist)
 {
 	t_element	*save;
 	uint8_t		swapped;
@@ -95,7 +95,7 @@ t_element	*sorttime(t_element *hlist)
 		swapped = 0;
 		while (hlist->name && hlist->next->next)
 		{
-			if (hlist->stat->st_ctime < hlist->next->stat->st_ctime)
+			if (hlist->stat->st_size < hlist->next->stat->st_size)
 			{
 				swap_edata(hlist, hlist->next);
 				swapped = 1;
@@ -111,8 +111,12 @@ t_element	*sort(t_element *hlist, t_flag flag)
 {
 	if (flag.time == 1)
 		sorttime(hlist);
-	else
+	else if (flag.size == 1)
+		sortsize(hlist);
+	else if (flag.nosort != 1)
 		hlist = sortlexico(hlist);
+	else if (flag.accesstime)
+		hlist = sorttime_u(hlist);
 	if (flag.rsort == 1)
 		hlist = sortreverse(hlist);
 	return (hlist);

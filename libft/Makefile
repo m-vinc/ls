@@ -6,9 +6,14 @@
 #    By: vmorvan <vmorvan@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/07 16:43:02 by vmorvan           #+#    #+#              #
-#    Updated: 2016/11/15 12:06:55 by vmorvan          ###   ########.fr        #
+#    Updated: 2017/03/08 03:53:31 by vmorvan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+NO_COLOR=\033[0m
+OK_COLOR=\033[32;01m
+ERROR_COLOR=\033[31;01m
+WARN_COLOR=\033[33;01m
 
 NAME = libft.a
 
@@ -71,75 +76,21 @@ SOURCE = ./ft_atoi.c \
 ./ft_toupper.c \
 ./ft_lstmap.c 
 
-OBJECT = ./ft_atoi.o \
-./ft_bzero.o \
-./ft_isalnum.o \
-./ft_isalpha.o \
-./ft_isascii.o \
-./ft_isdigit.o \
-./ft_isprint.o \
-./ft_itoa.o \
-./ft_lstadd.o \
-./ft_lstdel.o \
-./ft_lstdelone.o \
-./ft_lstiter.o \
-./ft_lstnew.o \
-./ft_memalloc.o \
-./ft_memccpy.o \
-./ft_memchr.o \
-./ft_memcmp.o \
-./ft_memcpy.o \
-./ft_memdel.o \
-./ft_memmove.o \
-./ft_memset.o \
-./ft_putchar.o \
-./ft_putchar_fd.o \
-./ft_putendl.o \
-./ft_putendl_fd.o \
-./ft_putnbr.o \
-./ft_putnbr_fd.o \
-./ft_putstr.o \
-./ft_putstr_fd.o \
-./ft_strcat.o \
-./ft_strchr.o \
-./ft_strclr.o \
-./ft_strcmp.o \
-./ft_strcpy.o \
-./ft_strdel.o \
-./ft_strdup.o \
-./ft_strequ.o \
-./ft_striter.o \
-./ft_striteri.o \
-./ft_strjoin.o \
-./ft_strlcat.o \
-./ft_strlen.o \
-./ft_strmap.o \
-./ft_strmapi.o \
-./ft_strncat.o \
-./ft_strncmp.o \
-./ft_strncpy.o \
-./ft_strnequ.o \
-./ft_strnew.o \
-./ft_strnstr.o \
-./ft_strrchr.o \
-./ft_strsplit.o \
-./ft_strstr.o \
-./ft_strsub.o \
-./ft_strtrim.o \
-./ft_tolower.o \
-./ft_toupper.o \
-./ft_lstmap.o
+OFILE=$(SOURCE:.c=.o)
 
-$(NAME):
-	gcc -c $(SOURCE) -Werror -Wextra -Wall
-	ar rc $(NAME) $(OBJECT)
-
-all: $(NAME)
-
+all: $(NAME) $(SOURCE)
+$(NAME): $(OFILE)
+	@echo "${WARN_COLOR}Libft:${NO_COLOR} Create library -> ${OK_COLOR}$(NAME)${NO_COLOR}"
+	@ar rc $(NAME) $(OFILE)
+.c.o:
+	@echo "${WARN_COLOR}Libft:${NO_COLOR} Compile -> ${WARN_COLOR}$<${NO_COLOR} => ${OK_COLOR}$@${NO_COLOR}"
+	@gcc -c $< -o $@ -Wall -Werror -Wextra
 clean:
-	rm -f $(OBJECT)
+	@echo "${WARN_COLOR}Libft:${NO_COLOR} ${ERROR_COLOR}Delete${NO_COLOR} -> objects files."
+	@rm -f $(OFILE)
 
 fclean: clean
-	rm -f $(NAME)
+	@echo "${WARN_COLOR}Libft:${NO_COLOR} ${ERROR_COLOR}Delete${NO_COLOR} -> $(NAME)"
+	@rm -f $(NAME)
 
 re: fclean $(NAME)
