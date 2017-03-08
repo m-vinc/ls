@@ -109,14 +109,17 @@ t_element	*sortsize(t_element *hlist)
 
 t_element	*sort(t_element *hlist, t_flag flag)
 {
-	if (flag.time == 1)
-		sorttime(hlist);
-	else if (flag.size == 1)
-		sortsize(hlist);
-	else if (flag.nosort != 1)
+	if (flag.nosort != 1)
 		hlist = sortlexico(hlist);
-	else if (flag.accesstime)
-		hlist = sorttime_u(hlist);
+	if (flag.time == 1)
+	{
+		if (flag.accesstime == 1)
+			hlist = sorttime_u(hlist);
+		else
+			hlist = sorttime(hlist);
+	}
+	if (flag.size == 1)
+		hlist = sortsize(hlist);
 	if (flag.rsort == 1)
 		hlist = sortreverse(hlist);
 	return (hlist);

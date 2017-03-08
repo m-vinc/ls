@@ -48,7 +48,7 @@ t_element	*sorttime_u(t_element *hlist)
 		swapped = 0;
 		while (hlist->name && hlist->next->next)
 		{
-			if (hlist->stat->st_atime > hlist->next->stat->st_atime)
+			if (hlist->stat->st_atime < hlist->next->stat->st_atime)
 			{
 				swap_edata(hlist, hlist->next);
 				swapped = 1;
