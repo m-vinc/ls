@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 16:16:06 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/08 05:01:02 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/08 05:13:26 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,8 @@ t_max			zmax();
 t_flag			another_flag(char x, t_flag flag);
 /* ----------------DISPLAY.C--------------------------- */
 void			addtime(char **time, char **f);
-void			showdetail(t_element *element, t_max max);
-int				showfile(t_element *hflist, uint8_t ld, int f_showsize);
+void			showdetail(t_element *element, t_flag flag, t_max max);
+int				showfile(t_element *hflist, t_flag flag, int f_showsize);
 void			w_perror(char *str);
 t_max			init_max(t_element *element);
 /* ----------------GET.C------------------------------- */
@@ -133,7 +133,7 @@ void			show_flist(int x, t_element *folder, t_opt opt);
 void			showfirst(t_element *element, char **f);
 void			showright(t_element *element, char **f);
 void			shownumberinfo(t_element *element, char **f, t_max max);
-void			showtime(t_element *element, char **f);
+void			showtime(t_element *element, char **f, t_flag flag);
 void			showislink(t_element *element, char **f);
 /* ----------------LONG_DISPLAY_1.C-----------------------*/
 void			showsize(t_element *hfile);

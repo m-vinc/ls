@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/26 21:16:28 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/08 04:17:10 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/08 05:11:03 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	show_flist(int x, t_element *folder, t_opt opt)
 			flist = sort(flist, opt.flag);
 			if (opt.flag.recursive == 1)
 				dlist = create_dlist(flist);
-			y = showfile(flist, opt.flag.ld, 1);
+			y = showfile(flist, opt.flag, 1);
 			if (opt.flag.recursive == 1)
 				show_flist(y, dlist, opt);
 		}

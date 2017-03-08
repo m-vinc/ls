@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 17:45:48 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/08 04:20:54 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/08 05:18:42 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_max	init_max(t_element *element)
 	return (max);
 }
 
-void	showdetail(t_element *element, t_max max)
+void	showdetail(t_element *element, t_flag flag, t_max max)
 {
 	char	*f;
 
@@ -62,7 +62,7 @@ void	showdetail(t_element *element, t_max max)
 	showfirst(element, &f);
 	showright(element, &f);
 	shownumberinfo(element, &f, max);
-	showtime(element, &f);
+	showtime(element, &f, flag);
 	f = ft_strjoinf(f, " ");
 	f = ft_strjoinf(f, element->name);
 	if (S_ISLNK(element->stat->st_mode))
@@ -79,7 +79,7 @@ void	w_perror(char *str)
 	perror(str);
 }
 
-int		showfile(t_element *hflist, uint8_t ld, int f_showsize)
+int		showfile(t_element *hflist, t_flag flag, int f_showsize)
 {
 	t_element	*save;
 	int			x;
@@ -87,17 +87,17 @@ int		showfile(t_element *hflist, uint8_t ld, int f_showsize)
 
 	x = 0;
 	save = hflist;
-	if (ld == 1 && hflist->name)
+	if (flag.ld == 1 && hflist->name)
 	{
 		max = init_max(hflist);
 		(f_showsize == 1 ? showsize(hflist) : 0);
 	}
 	while (save->next)
 	{
-		if (ld == 0)
+		if (flag.ld == 0)
 			ft_putendl(save->name);
 		else
-			showdetail(save, max);
+			showdetail(save, flag, max);
 		x++;
 		save = save->next;
 	}

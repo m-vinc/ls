@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 17:13:53 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/08 02:38:39 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/08 05:23:02 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	shownumberinfo(t_element *element, char **f, t_max max)
 	*f = ft_strjoinf(*f, " ");
 }
 
-void	showtime(t_element *element, char **f)
+void	showtime(t_element *element, char **f, t_flag flag)
 {
 	char	**time;
 	int		e;
@@ -82,7 +82,8 @@ void	showtime(t_element *element, char **f)
 	char	**hour;
 
 	e = 0;
-	time = ft_strsplit(ctime(&element->stat->st_ctime), ' ');
+	time = ft_strsplit((flag.accesstime == 1 ? (ctime(&element->stat->st_atime))
+				: ctime(&element->stat->st_ctime)), ' ');
 	*f = ft_strjoinf(*f, time[1]);
 	*f = ft_strjoinf(*f, "  ");
 	*f = ft_strjoinf(*f, time[2]);

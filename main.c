@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 16:14:09 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/08 05:03:16 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/08 05:10:16 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(int argc, char **argv)
 	x = 0;
 	opt = init_flag(argc, argv);
 	x = showfile(sort(get_argtofile(opt.arg, opt.flag), opt.flag),
-			opt.flag.ld, 0);
+			opt.flag, 0);
 	if (opt.flag.nocontent != 1)
 	{
 		folder = sort(get_argtofolder(opt.arg), opt.flag);
