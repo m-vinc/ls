@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/07 21:48:44 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/08 05:02:38 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/09 23:47:41 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,15 @@ t_es	init_list(void)
 	t_es tmp;
 
 	tmp.list = create_element();
+	tmp.origin = tmp.list;
+	return (tmp);
+}
+
+t_as	init_arglist(void)
+{
+	t_as tmp;
+
+	tmp.list = create_arg();
 	tmp.origin = tmp.list;
 	return (tmp);
 }

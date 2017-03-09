@@ -3,7 +3,7 @@ OK_COLOR=\033[32;01m
 ERROR_COLOR=\033[31;01m
 WARN_COLOR=\033[33;01m
 
-OUT= ft_ls
+NAME= ft_ls
 
 CFILE= miscellaneous_1.c \
 long_display_1.c \
@@ -24,13 +24,13 @@ OFILE= $(CFILE:.c=.o)
 
 LIB= libft/libft.a
 
-all: $(CFILE) $(OUT)
+all: $(CFILE) $(NAME)
 
-$(OUT): $(OFILE)
+$(NAME): $(OFILE)
 	@echo "${WARN_COLOR}Ft_ls:${NO_COLOR} ${OK_COLOR}Compile libft${NO_COLOR}"
 	@make -C libft/
 	@gcc -o $@ $(OFILE) -Wall -Wextra -Werror $(LIB)
-	@echo "${WARN_COLOR}Ft_ls:${NO_COLOR} Compile -> $(OUT)${OK_COLOR} OK ${NO_COLOR}"
+	@echo "${WARN_COLOR}Ft_ls:${NO_COLOR} Compile -> $(NAME)${OK_COLOR} OK ${NO_COLOR}"
 .c.o:
 	@echo "${WARN_COLOR}Ft_ls:${NO_COLOR} Compile -> ${WARN_COLOR}$<${NO_COLOR} => ${OK_COLOR} $@ ${NO_COLOR}"
 	@gcc -c $< -o $@ -Wall -Werror -Wextra
@@ -39,7 +39,7 @@ clean:
 	@make -C libft/ clean
 	@rm -f $(OFILE)
 fclean: clean
-	@echo "${WARN_COLOR}Ft_ls:${NO_COLOR} ${ERROR_COLOR}Delete${NO_COLOR} -> $(OUT)"
+	@echo "${WARN_COLOR}Ft_ls:${NO_COLOR} ${ERROR_COLOR}Delete${NO_COLOR} -> $(NAME)"
 	@make -C libft/ fclean
-	@rm -f $(OUT)
-re: fclean $(OUT) 
+	@rm -f $(NAME)
+re: fclean $(NAME) 

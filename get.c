@@ -6,13 +6,13 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 17:52:29 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/08 05:00:47 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/09 23:48:25 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-t_element	*get_argtofile(t_arg *hlist, t_flag flag)
+t_element	*get_argtofile(t_arg *hlist, t_flag flag, int *n)
 {
 	t_es	l;
 	t_stat	*s;
@@ -21,6 +21,7 @@ t_element	*get_argtofile(t_arg *hlist, t_flag flag)
 	l.origin = l.list;
 	while (hlist->next)
 	{
+		*n += 1;
 		if ((s = malloc(sizeof(t_stat))) == 0 || (lstat(hlist->str, s)) == -1)
 		{
 			w_perror(hlist->str);

@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 16:16:06 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/08 05:13:26 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/09 23:49:18 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ char			*build_path(char *base, char *name);
 char			*get_majorminor(t_element *element);
 /* ----------------MISCELLEANEOUS_1.C---------------------*/
 t_es			init_list();
+t_as			init_arglist();
 void			w_error(t_stat **s, char *url);
 t_max			zmax();
 t_flag			another_flag(char x, t_flag flag);
@@ -113,7 +114,7 @@ int				showfile(t_element *hflist, t_flag flag, int f_showsize);
 void			w_perror(char *str);
 t_max			init_max(t_element *element);
 /* ----------------GET.C------------------------------- */
-t_element		*get_argtofile(t_arg *hlist, t_flag flag);
+t_element		*get_argtofile(t_arg *hlist, t_flag flag, int *n);
 t_element		*get_argtofolder(t_arg *hlist);
 t_max			getmajminmax(t_max max, t_element *element);
 t_max			getgroupmax(t_max max, t_element *element);

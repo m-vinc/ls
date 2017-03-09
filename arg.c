@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/07 22:38:12 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/08 05:03:54 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/09 23:56:42 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,13 @@ t_opt		init_flag(int argc, char **argv)
 	t_as	warg;
 
 	opt.flag = zflag();
-	warg.list = create_arg();
-	warg.origin = warg.list;
+	warg = init_arglist();
 	x = 1;
 	endarg = 0;
 	while (x < argc)
 	{
-		if (argv[x][0] == '-' && endarg == 0)
+		if (argv[x][0] == '-' && argv[x][1] != '-' &&
+				argv[x][1] != '\0' && endarg == 0)
 			opt.flag = putflag(opt.flag, argv[x]);
 		else
 		{
