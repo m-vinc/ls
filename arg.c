@@ -6,7 +6,7 @@
 /*   By: vmorvan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/07 22:38:12 by vmorvan           #+#    #+#             */
-/*   Updated: 2017/03/09 23:56:42 by vmorvan          ###   ########.fr       */
+/*   Updated: 2017/03/10 01:36:42 by vmorvan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 void		argerror(char arg)
 {
 	ft_putstr("ft_ls: illegal option -- ");
-	ft_putchar(arg);
-	ft_putchar('\n');
-	ft_putendl("usage: ft_ls [-RrltaSfd] [file...]");
+	ft_putchar_fd(arg, 2);
+	ft_putchar_fd('\n', 2);
+	ft_putendl_fd("usage: ft_ls [-RrltauSfd] [file...]", 2);
 	exit(1);
 }
 
@@ -62,16 +62,31 @@ t_flag		zflag(void)
 	return (flag);
 }
 
+t_arg		*addtolist(t_arg *list, char *arg, uint8_t *ea, int *n)
+{
+	if (*ea == 0 && arg[0] == '-' && arg[1] == '-' && arg[2] == '\0')
+		*ea = 1;
+	else
+	{
+		list = data_to_arg(arg, list);
+		*ea = 1;
+		*n = *n + 1;
+	}
+	return (list);
+}
+
 t_opt		init_flag(int argc, char **argv)
 {
 	t_opt	opt;
 	int		x;
 	uint8_t	endarg;
 	t_as	warg;
+	int		n;
 
 	opt.flag = zflag();
 	warg = init_arglist();
 	x = 1;
+	n = 0;
 	endarg = 0;
 	while (x < argc)
 	{
@@ -79,13 +94,10 @@ t_opt		init_flag(int argc, char **argv)
 				argv[x][1] != '\0' && endarg == 0)
 			opt.flag = putflag(opt.flag, argv[x]);
 		else
-		{
-			warg.list = data_to_arg(argv[x], warg.list);
-			endarg = 1;
-		}
+			warg.list = addtolist(warg.list, argv[x], &endarg, &n);
 		x++;
 	}
-	if (endarg == 0)
+	if (n == 0)
 		warg.list = data_to_arg(".", warg.list);
 	opt.arg = warg.origin;
 	return (opt);
